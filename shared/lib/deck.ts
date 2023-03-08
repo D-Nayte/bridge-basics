@@ -6,7 +6,7 @@ const createCard = (suit, rank) => {
     image: `./cards/${rank}${suit}.png`,
   };
 };
-/*
+
 const createDeck = () => {
   const suits = ["C", "D", "H", "S"];
   const ranks = [...Array(14 - 2 + 1)].map((_, index) => (2 + index).toString()).reverse();
@@ -18,4 +18,3 @@ const createDeck = () => {
 };
 
 export default createDeck;
-*/
