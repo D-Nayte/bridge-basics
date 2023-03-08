@@ -1,5 +1,5 @@
-import BridgeClient from "@/components/BridgeClient";
-import MyLobby from "../components/MyLobby";
+import BridgeClient from "@components/BridgeClient";
+// import MyLobby from "../components/MyLobby";
 
 const Home = () => {
   return (

@@ -1,19 +1,3 @@
-// import type { MyGameState } from "lib/Bridge";
-// import type { BoardProps } from "boardgame.io/react";
-import { shuffleAPIDeck, shuffleDeck } from "@/utils/shuffleDeck";
-import React, {
-  BaseSyntheticEvent,
-  SyntheticEvent,
-  useEffect,
-  useState,
-} from "react";
-import Image from "next/image";
-import createDeck from "../lib/deck";
-
-// interface MyGameProps extends BoardProps<MyGameState> {
-//   // Additional custom properties for your component
-// }
-
 const BridgeBoard = (props) => {
   const { G, ctx, moves, playerID, matchData } = props;
 
@@ -44,8 +28,8 @@ const BridgeBoard = (props) => {
             <li key={player.name}>
               <h2>{player.name}</h2>
               <ul style={{ display: "flex", gap: ".5rem" }}>
-                {player.hand.map((card) => (
-                  <li style={{ border: "2px solid black" }}>
+                {player.hand.map((card, index) => (
+                  <li key={index} style={{ border: "2px solid black" }}>
                     <img width="50px" src={card.image}></img>
                   </li>
                 ))}

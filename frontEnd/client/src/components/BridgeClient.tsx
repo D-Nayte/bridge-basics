@@ -1,6 +1,5 @@
 import { Client } from "boardgame.io/react";
-import { Bridge } from "../lib/Bridge";
-import { players } from "../lib/players";
+import { Bridge } from "@shared/lib/Bridge";
 import BridgeBoard from "./Board";
 import { SocketIO, Local } from "boardgame.io/multiplayer";
 

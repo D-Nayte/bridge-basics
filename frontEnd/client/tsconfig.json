@@ -14,23 +14,23 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./*"],
+      "@shared/*": ["../../shared/*"],
+      "@components/*": ["./src/components/*"]
     }
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "utils/shuffleDeck.js",
-    "lib/players.js",
-    "src/components/BridgeClient.jsx",
-    "src/components/Board.jsx",
+    "src/components/BridgeClient.tsx",
+    "src/components/Board.tsx",
     "server/index.js",
-    "src/pages/index.jsx",
-    "src/pages/_document.jsx",
-    "src/pages/_app.jsx",
+    "src/pages/index.tsx",
+    "src/pages/_document.tsx",
+    "src/pages/_app.tsx",
     "lib/Bridge.js"
   ],
   "exclude": ["node_modules"]
