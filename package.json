@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "boardgame.io": "^0.50.2",
-    "concurrently": "^7.6.0"
+    "concurrently": "^7.6.0",
+    "qrcode.react": "^3.1.0"
   }
 }
