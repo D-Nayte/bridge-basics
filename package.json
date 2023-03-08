@@ -13,6 +13,7 @@
     "dev": "concurrently --kill-others \"npm run dev_client\" \"npm run dev_display\" \"npm run dev_server\""
   },
   "dependencies": {
+    "boardgame.io": "^0.50.2",
     "concurrently": "^7.6.0"
   }
 }

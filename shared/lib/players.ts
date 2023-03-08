@@ -1,12 +1,12 @@
-// export interface Player {
-//   name: string;
-//   id: string;
-//   hand: [];
-//   bid: {
-//     level: number;
-//     color: null | string;
-//   };
-// }
+export interface Player {
+  name: string;
+  id: string;
+  hand: [];
+  bid: {
+    level: number;
+    color: null | string;
+  };
+}
 
 export const players = [
   {

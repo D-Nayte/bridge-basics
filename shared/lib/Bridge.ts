@@ -1,12 +1,7 @@
 // import type { Game, Move } from "boardgame.io";
-import { dealCards, shuffleDeck } from "../utils/shuffleDeck.js";
-import { INVALID_MOVE, Stage } from "boardgame.io/core";
-import { ActivePlayers } from "boardgame.io/core";
-import { TurnOrder } from "boardgame.io/core";
-import next from "next";
-import { parse } from "path";
-import { stringify } from "querystring";
-import createDeck from "./deck.js";
+import { dealCards } from "../utils/shuffleDeck";
+import { INVALID_MOVE } from "../../node_modules/boardgame.io/core";
+import createDeck from "./deck";
 
 const dealToPlayer = (G) => {
   const deck = G.deck;
@@ -190,35 +185,3 @@ export const Bridge = {
     },
   },
 };
-
-// export const Bridge: Game<MyGameState> = {
-//   setup: (): MyGameState => {
-//     return {
-//       tricks: [],
-//       trickIndex: -1,
-//       trump: null,
-//       // players,
-//       dealt: null,
-//       team: [
-//         [players[0], players[2]],
-//         [players[1], players[3]],
-//       ],
-//     };
-//   },
-//   turn: { minMoves: 1 },
-
-//   // phases: {
-//   //   deal: {
-//   //     moves: { dealToPlayer },
-//   //     endIf: ({ G }) => G.dealt === true,
-//   //     start: true,
-//   //     next: "bid",
-//   //     turn: { minMoves: 1, maxMoves: 1 },
-//   //   },
-//   //   bid: {
-//   //     moves: { bid },
-//   //   },
-//   // },
-// };
-
-export default Bridge;

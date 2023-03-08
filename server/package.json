@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "dev": "ts-node src/index.ts"
   },
-  "type": "module",
   "dependencies": {
     "boardgame.io": "^0.50.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "esm": "^3.2.25"
   },
   "devDependencies": {
