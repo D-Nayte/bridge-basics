@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "utils/shuffleDeck.js",
+    "lib/players.js",
+    "src/components/BridgeClient.jsx",
+    "src/components/Board.jsx",
+    "server/index.js",
+    "src/pages/index.jsx",
+    "src/pages/_document.jsx",
+    "src/pages/_app.jsx",
+    "lib/Bridge.js"
+  ],
+  "exclude": ["node_modules"]
+}
