@@ -5,6 +5,8 @@ import Loading from "./Loading";
 const Lobby = () => {
   const router = useRouter();
 
+  const joinMatch = () => {};
+
   useEffect(() => {
     console.log("router :>> ", router);
   }, [router.isReady]);

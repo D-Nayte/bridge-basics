@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -14,25 +14,12 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": "./",
     "paths": {
-      "@/*": ["./*"],
-      "@shared/*": ["../../shared/src/*"],
+      "@/*": ["./src/*"],
+      "@shared/*": ["../../shared/*"],
       "@components/*": ["./src/components/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "src/components/BridgeClient.tsx",
-    "src/components/Board.tsx",
-    "server/index.js",
-    "src/pages/[...matchID].jsx",
-    "src/pages/_document.tsx",
-    "src/pages/_app.tsx",
-    "lib/Bridge.js",
-    "../../shared"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }
