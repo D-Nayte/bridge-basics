@@ -1,13 +1,13 @@
-import React from "react";
+import React, { ReactComponentElement } from "react";
 import {QRCodeSVG} from 'qrcode.react';
 
-const Qrcode = () => {
+const Qrcode = ({matchURL}: {matchURL: string;}) /* what to put here */ => {
   
   const qrCode = (
    <QRCodeSVG
     id="qrCodeId"
     size={400}
-    value={"1"}
+    value={matchURL}
     bgColor="black"
     fgColor="darkgrey"
     level="H"

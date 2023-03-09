@@ -2,18 +2,28 @@ import React, { useEffect, useState } from "react";
 import { LobbyClient } from "boardgame.io/client";
 import { url } from "inspector";
 import Link from "next/link";
+import Qrcode from "./Qrcode";
+import {
+  BsFillSuitClubFill,
+  BsFillSuitDiamondFill,
+  BsFillSuitHeartFill,
+  BsFillSuitSpadeFill,
+} from "react-icons/bs";
+//import Loading from "@shared/components/Loading";
 
 const Lobby = () => {
-  const serverPort: String | undefined = process.env.NEXT_PUBLIC_SERVER_PORT;
-  const clientPort: String | undefined = process.env.NEXT_PUBLIC_CLIENT_PORT;
-  const [matchURL, setmatchURL] = useState<null | String>(null);
+  const serverPort: string | undefined = process.env.NEXT_PUBLIC_SERVER_PORT;
+  const clientPort: string | undefined = process.env.NEXT_PUBLIC_CLIENT_PORT;
+  const [matchURL, setmatchURL] = useState<string>("");
 
   // create a game on server and return the matchID
   const createGame = async (protocoll: string) => {
     if (!serverPort) return console.error("Missing port for creating game!");
 
     const url = new URL(`${protocoll}localhost:${serverPort}`);
+
     url.pathname = "serverIp";
+    console.log("url", url);
     const lobbyClient = new LobbyClient({ server: url.origin });
 
     try {
@@ -57,10 +67,29 @@ const Lobby = () => {
     <div>
       MatchID{matchURL}
       <p>
-        <Link href={`${matchURL}`} target="_blank">
-          LINK TO CLIENT
-        </Link>
+        {matchURL !== "" && (
+          <Link href={`${matchURL}`} target="_blank">
+            <Qrcode matchURL={matchURL} />
+          </Link>
+        )}
       </p>
+      <div className="loading-screen">
+        <div className="loading-screen__text">
+          <h1>Loading</h1>
+        </div>
+        <div className="loading-screen__icon suit-club">
+          <BsFillSuitClubFill />
+        </div>
+        <div className="loading-screen__icon suit-diamond">
+          <BsFillSuitDiamondFill />
+        </div>
+        <div className="loading-screen__icon suit-heart">
+          <BsFillSuitHeartFill />
+        </div>
+        <div className="loading-screen__icon suit-spade">
+          <BsFillSuitSpadeFill />
+        </div>
+      </div>
     </div>
   );
 };

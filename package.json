@@ -15,6 +15,7 @@
   "dependencies": {
     "boardgame.io": "^0.50.2",
     "concurrently": "^7.6.0",
-    "qrcode.react": "^3.1.0"
+    "qrcode.react": "^3.1.0",
+    "react-icons": "^4.8.0"
   }
 }

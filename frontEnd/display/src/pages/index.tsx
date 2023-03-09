@@ -1,6 +1,5 @@
 import Lobby from "@/components/Lobby";
 import Head from "next/head";
-import Qrcode from "../../components/Qrcode";
 
 export default function Home() {
   return (
