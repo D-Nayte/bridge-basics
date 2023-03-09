@@ -8,7 +8,7 @@ export interface Player {
   };
 }
 
-export const players = [
+const players = [
   {
     name: "Andy",
     id: "adc",
@@ -46,3 +46,5 @@ export const players = [
     },
   },
 ];
+
+module.exports = { players };

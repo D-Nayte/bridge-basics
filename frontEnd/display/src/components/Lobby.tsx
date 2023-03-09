@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { LobbyClient } from "boardgame.io/client";
-import { url } from "inspector";
 import Link from "next/link";
 import Qrcode from "./Qrcode";
 import {
