@@ -1,10 +1,14 @@
 import dotenv from "dotenv";
 import path from "path";
-
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
-
 import { Server, Origins } from "../node_modules/boardgame.io/server";
 import { Bridge } from "../../shared/lib/Bridge";
+import { getServerIp } from "./utils";
+
+const serverIp = getServerIp();
+console.log("serverIp1 :>> ", serverIp);
+
+const port: number = parseInt(process.env.NEXT_PUBLIC_SERVER_PORT);
 
 const server = Server({
   games: [Bridge],
@@ -14,5 +18,9 @@ const server = Server({
   ],
 });
 
-const port: number = parseInt(process.env.SERVER_PORT);
+server.router.post("/serverIp", (ctx, next) => {
+  console.log("serverIp2 :>> ", serverIp);
+  ctx.body = { serverIp: serverIp };
+});
+
 server.run(port);

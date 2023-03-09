@@ -28,7 +28,7 @@
     "src/components/BridgeClient.tsx",
     "src/components/Board.tsx",
     "server/index.js",
-    "src/pages/index.tsx",
+    "src/pages/[...matchID].jsx",
     "src/pages/_document.tsx",
     "src/pages/_app.tsx",
     "lib/Bridge.js"

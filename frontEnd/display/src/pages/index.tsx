@@ -1,3 +1,4 @@
+import Lobby from "@/components/Lobby";
 import Head from "next/head";
 import Qrcode from "../../components/Qrcode";
 
@@ -11,8 +12,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main> DISPLAY</main>
-      <Qrcode/>
+      <main>
+        <Lobby />
+      </main>
     </>
   );
 }
