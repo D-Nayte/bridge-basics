@@ -79,22 +79,3 @@ examples: .stick-man__head-small
           .loading-screen__text-h1
           .qr-container__qr-code
 */
-
-/* TEMP CSS */
-
-.loading-screen__icon {
-}
-
-.loading-screen__icon .suit-club {
-  background-color: var(--blue);
-}
-
-.loading-screen__icon .suit-diamond {
-  background-color: var(--red);
-}
-.loading-screen__icon .suit-heart {
-  background-color: var(--yellow);
-}
-.loading-screen__icon .suit-spade {
-  background-color: var(--green);
-}

@@ -2,13 +2,7 @@ import React, { useEffect, useState } from "react";
 import { LobbyClient } from "boardgame.io/client";
 import Link from "next/link";
 import Qrcode from "./Qrcode";
-import {
-  BsFillSuitClubFill,
-  BsFillSuitDiamondFill,
-  BsFillSuitHeartFill,
-  BsFillSuitSpadeFill,
-} from "react-icons/bs";
-//import Loading from "@shared/components/Loading";
+import Loading from "@shared/components/Loading";
 
 const Lobby = () => {
   const serverPort: string | undefined = process.env.NEXT_PUBLIC_SERVER_PORT;
@@ -72,23 +66,7 @@ const Lobby = () => {
           </Link>
         )}
       </p>
-      <div className="loading-screen">
-        <div className="loading-screen__text">
-          <h1>Loading</h1>
-        </div>
-        <div className="loading-screen__icon suit-club">
-          <BsFillSuitClubFill />
-        </div>
-        <div className="loading-screen__icon suit-diamond">
-          <BsFillSuitDiamondFill />
-        </div>
-        <div className="loading-screen__icon suit-heart">
-          <BsFillSuitHeartFill />
-        </div>
-        <div className="loading-screen__icon suit-spade">
-          <BsFillSuitSpadeFill />
-        </div>
-      </div>
+      <Loading />
     </div>
   );
 };

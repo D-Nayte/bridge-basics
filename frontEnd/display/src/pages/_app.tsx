@@ -1,8 +1,6 @@
-import "@/styles/globals.css";
+import "@shared/styles/global.css";
 import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
-import { getURLs } from "@shared/src/utils/urls";
-import { players } from "@shared/src/lib/players";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [urls, seturls] = useState({});
@@ -10,7 +8,7 @@ export default function App({ Component, pageProps }: AppProps) {
     if (typeof window !== undefined) {
       // get protocoll(http,https) from browser
       const protocoll = window.location.protocol;
-      console.log("players :>> ", players);
+
       // getURLs({ protocoll, ENV: process.env });
     }
   }, []);
