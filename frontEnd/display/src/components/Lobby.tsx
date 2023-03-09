@@ -3,6 +3,7 @@ import { LobbyClient } from "boardgame.io/client";
 import Link from "next/link";
 import Qrcode from "./Qrcode";
 import Loading from "@shared/components/Loading";
+import lobby from "../styles/lobby.module.css";
 
 const Lobby = () => {
   const serverPort: string | undefined = process.env.NEXT_PUBLIC_SERVER_PORT;
@@ -57,17 +58,20 @@ const Lobby = () => {
   }, []);
 
   return (
-    <div>
-      MatchID{matchURL}
-      <p>
-        {matchURL !== "" && (
-          <Link href={`${matchURL}`} target="_blank">
-            <Qrcode matchURL={matchURL} />
-          </Link>
-        )}
-      </p>
+    <>
+      <div className={lobby.lobby}>
+        <p>MatchID{matchURL}</p>
+
+        <p>
+          {matchURL !== "" && (
+            <Link href={`${matchURL}`} target="_blank">
+              <Qrcode matchURL={matchURL} />
+            </Link>
+          )}
+        </p>
+      </div>
       <Loading />
-    </div>
+    </>
   );
 };
 
