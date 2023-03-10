@@ -1,30 +1,59 @@
 import React, { useEffect, useState } from "react";
 import { LobbyClient } from "boardgame.io/client";
 import Link from "next/link";
+import { Match, MatchData, URLS } from "@interface";
+import BridgeClient from "./BridgeClient";
+import createBridgeClient from "./BridgeClient";
 
-const Lobby = () => {
-  const serverPort: String | undefined = process.env.NEXT_PUBLIC_SERVER_PORT;
+const Lobby = ({ urls }: { urls: URLS }) => {
   const clientPort: String | undefined = process.env.NEXT_PUBLIC_CLIENT_PORT;
+  const { serverURL } = urls;
   const [matchURL, setmatchURL] = useState<null | String>(null);
+  const lobbyClient = new LobbyClient({ server: serverURL.origin });
+  const [matchData, setmatchData] = useState<MatchData | null>(null);
+  const [BridgeClient, setBridgeClient] = useState<any>();
 
   // create a game on server and return the matchID
   const createGame = async (protocoll: string) => {
-    if (!serverPort) return console.error("Missing port for creating game!");
-
-    const url = new URL(`${protocoll}localhost:${serverPort}`);
+    // url to server request for server IP
+    const url = serverURL;
     url.pathname = "serverIp";
-    const lobbyClient = new LobbyClient({ server: url.origin });
 
     try {
       const { matchID } = await lobbyClient.createMatch("bridge", {
         numPlayers: 5,
+
+        setupData: { test: "kasldnlk", name: "display" },
       });
       const response = await fetch(url.href, { method: "POST" });
       const { serverIp } = await response.json();
 
       createClientURL({ serverIp, matchID, protocoll });
+      joinMatch(matchID);
     } catch (error) {
       console.error("Failed to get match id and server ip", error);
+    }
+  };
+
+  // join match as display
+  const joinMatch = async (matchID: string) => {
+    const lobbyClient = new LobbyClient({ server: serverURL.origin });
+    const playerData = {
+      playerName: "display",
+      playerID: "4",
+    };
+
+    try {
+      const match: Match = await lobbyClient.joinMatch(
+        "bridge",
+        matchID,
+        playerData
+      );
+      setmatchData({ ...match, matchID });
+    } catch (error: any) {
+      if (error.details.includes("maximum number of players"))
+        return alert("Maximun players reached");
+      console.error("Failed join match", error);
     }
   };
 
@@ -39,9 +68,12 @@ const Lobby = () => {
     protocoll: string;
   }) => {
     const lobbyURL = new URL(`${protocoll}${serverIp}:${clientPort}`);
-    lobbyURL.pathname = `matchID=${matchID}`;
-
+    lobbyURL.pathname = "lobby";
+    lobbyURL.searchParams.set("matchID", matchID);
+    console.log("lobbyURL :>> ", lobbyURL);
     setmatchURL(lobbyURL.href);
+    const BrideClient = createBridgeClient({ socketAdress: "localhost:8080" });
+    setBridgeClient((prev: any) => (prev = BrideClient));
   };
 
   useEffect(() => {
@@ -53,14 +85,17 @@ const Lobby = () => {
   }, []);
 
   return (
-    <div>
-      MatchID{matchURL}
+    <>
+      <h1>MatchID{matchURL}</h1>
       <p>
         <Link href={`${matchURL}`} target="_blank">
           LINK TO CLIENT
         </Link>
       </p>
-    </div>
+      {BridgeClient && matchData && (
+        <BridgeClient matchID={matchData.matchID} />
+      )}
+    </>
   );
 };
 
