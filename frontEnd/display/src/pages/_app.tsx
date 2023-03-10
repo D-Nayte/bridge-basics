@@ -1,4 +1,4 @@
-import "@/styles/globals.css";
+import "@shared/styles/global.css";
 import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
 import { getURLs } from "@shared/src/utils/urls";

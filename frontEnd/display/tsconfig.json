@@ -16,7 +16,7 @@
     "incremental": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@shared/*": ["../../shared/*"],
+      "@shared/*": ["../../shared/src/*"],
       "@components/*": ["./src/components/*"],
       "@interface": ["../../shared/src/interface/index.ts"]
     }

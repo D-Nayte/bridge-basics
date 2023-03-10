@@ -2,20 +2,21 @@ import React, { useEffect, useState } from "react";
 import { LobbyClient } from "boardgame.io/client";
 import Link from "next/link";
 import { Match, MatchData, URLS } from "@interface";
-import BridgeClient from "./BridgeClient";
 import createBridgeClient from "./BridgeClient";
+import Qrcode from "./Qrcode";
+import Loading from "@shared/components/Loading";
+import lobby from "../styles/lobby.module.css";
 
 const Lobby = ({ urls }: { urls: URLS }) => {
   const clientPort: String | undefined = process.env.NEXT_PUBLIC_CLIENT_PORT;
   const { serverURL } = urls;
-  const [matchURL, setmatchURL] = useState<null | String>(null);
   const lobbyClient = new LobbyClient({ server: serverURL.origin });
   const [matchData, setmatchData] = useState<MatchData | null>(null);
   const [BridgeClient, setBridgeClient] = useState<any>();
+  const [matchURL, setmatchURL] = useState<string>("");
 
   // create a game on server and return the matchID
   const createGame = async (protocoll: string) => {
-    // url to server request for server IP
     const url = serverURL;
     url.pathname = "serverIp";
 
@@ -86,15 +87,21 @@ const Lobby = ({ urls }: { urls: URLS }) => {
 
   return (
     <>
-      <h1>MatchID{matchURL}</h1>
-      <p>
-        <Link href={`${matchURL}`} target="_blank">
-          LINK TO CLIENT
-        </Link>
-      </p>
       {BridgeClient && matchData && (
         <BridgeClient matchID={matchData.matchID} />
       )}
+      <div className={lobby.lobby}>
+        <p>MatchID{matchURL}</p>
+
+        <p>
+          {matchURL !== "" && (
+            <Link href={`${matchURL}`} target="_blank">
+              <Qrcode matchURL={matchURL} />
+            </Link>
+          )}
+        </p>
+      </div>
+      <Loading />
     </>
   );
 };
