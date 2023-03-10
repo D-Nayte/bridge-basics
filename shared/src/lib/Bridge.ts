@@ -6,11 +6,16 @@ import {
   TurnOrder,
 } from "../../node_modules/boardgame.io/core";
 import createDeck from "./deck";
-import { Bid, BridgeParams, BridgeState, Player, RawPlayer } from "@/interface";
+import {
+  Bid,
+  BridgeParams,
+  BridgeState,
+  Player,
+  RawPlayer,
+} from "../interface/index";
 import type { Game, Move, Ctx, FnContext } from "boardgame.io";
-import { BoardProps } from "boardgame.io/react";
 
-const dealToPlayer = ({ G }: BridgeParams) => {
+const dealToPlayer = ({ G }: { G: any }) => {
   const deck = G.deck;
   G.players = G.players.map((player: Player) => {
     player.hand = dealCards(deck);
@@ -66,8 +71,8 @@ const players = [
   },
 ];
 
-const bid = (
-  { G, ctx }: BridgeParams,
+const bid: Move<BridgeState> = (
+  { G, ctx },
   { bidLevel, bidSuit }: { bidLevel: string; bidSuit: string }
 ) => {
   const playerIndex = parseInt(ctx.currentPlayer);
@@ -90,7 +95,7 @@ const bid = (
   G.madeBids.push({ level: bidLevel, suit: bidSuit });
 };
 
-const playerpassed = ({ G, ctx, events }: BridgeParams) => {
+const playerpassed: Move<BridgeState> = ({ G, ctx, events }) => {
   events.endTurn && events.endTurn({ next: "3" });
   G.players[parseInt(ctx.currentPlayer)].passed = true;
 };
@@ -107,7 +112,7 @@ const playCard = () => {
   console.log("play round");
 };
 
-const double = ({ G, ctx }: BridgeParams) => {
+const double: Move<BridgeState> = ({ G, ctx }) => {
   const currPlayerIndex = parseInt(ctx.currentPlayer);
   G.players[currPlayerIndex].passed = true;
 
@@ -123,7 +128,7 @@ const double = ({ G, ctx }: BridgeParams) => {
   return INVALID_MOVE;
 };
 
-const reDouble = ({ G, ctx }: BridgeParams) => {
+const reDouble: Move<BridgeState> = ({ G, ctx }) => {
   const currPlayerIndex = parseInt(ctx.currentPlayer);
   //redouble themself... needed?????
   // const currentPlayer = G.players[currPlayerIndex];
@@ -143,7 +148,7 @@ const reDouble = ({ G, ctx }: BridgeParams) => {
   return INVALID_MOVE;
 };
 
-const addToG = ({ G, ctx }: BridgeParams, player: RawPlayer) => {
+const addToG: Move<BridgeState> = ({ G, ctx }, player) => {
   console.log("player :>> ", player);
   if (G.players.find((currPlayer: Player) => currPlayer.id === player.id))
     return INVALID_MOVE;

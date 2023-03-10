@@ -1,4 +1,4 @@
-import { URLS } from "@/interface";
+import { URLS } from "@interface";
 
 export const getURLs = ({ protocoll }: { protocoll: string }): URLS => {
   const serverPort: string | undefined = process.env.NEXT_PUBLIC_SERVER_PORT;

@@ -1,5 +1,4 @@
 import type { Game, Move, Ctx, FnContext } from "boardgame.io";
-import { BoardProps } from "boardgame.io/react";
 
 export interface URLS {
   serverURL: URL;
