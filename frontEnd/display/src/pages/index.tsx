@@ -1,7 +1,7 @@
 import Lobby from "@/components/Lobby";
 import Head from "next/head";
 
-export default function Home() {
+export default function Home(props: any) {
   return (
     <>
       <Head>
@@ -12,7 +12,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <Lobby />
+        <Lobby {...props} />
       </main>
     </>
   );

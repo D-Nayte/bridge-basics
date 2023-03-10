@@ -2,7 +2,6 @@ import { networkInterfaces } from "os";
 
 export const getServerIp = () => {
   const nets = networkInterfaces();
-  console.log("nets :>> ", nets);
   const results = [];
 
   for (const name of Object.keys(nets)) {

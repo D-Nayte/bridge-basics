@@ -1,6 +1,10 @@
 // import type { Game, Move } from "boardgame.io";
 import { dealCards } from "../utils/shuffleDeck";
-import { INVALID_MOVE } from "../../node_modules/boardgame.io/core";
+import {
+  ActivePlayers,
+  INVALID_MOVE,
+  TurnOrder,
+} from "../../node_modules/boardgame.io/core";
 import createDeck from "./deck";
 
 const dealToPlayer = (G) => {
@@ -132,20 +136,43 @@ const reDouble = ({ G, ctx }) => {
   return INVALID_MOVE;
 };
 
+const addToG = ({ G, ctx }, player) => {
+  console.log("player :>> ", player);
+  if (G.players.find((currPlayer) => currPlayer.id === parseInt(player.id)))
+    return INVALID_MOVE;
+  G.players.push(player);
+};
+
 export const Bridge = {
   name: "bridge",
-  setup: (ctx) => {
+  setup: ({ ctx }) => {
     return {
       deck: createDeck(),
       tricks: [],
       madeBids: [],
       trickIndex: -1,
       contract: null,
-      players,
+      players: [],
     };
   },
 
+  turn: {
+    order: TurnOrder.CUSTOM(["0", "1", "2", "3"]),
+  },
+
   phases: {
+    create: {
+      turn: {
+        activePlayers: ActivePlayers.ALL,
+      },
+      moves: { addToG },
+      start: true,
+      endIf: ({ G }) => {
+        return G.players.length >= 4;
+      },
+      next: "build",
+    },
+
     build: {
       onBegin: ({ G, ctx }) => {
         dealToPlayer(G);
@@ -153,7 +180,6 @@ export const Bridge = {
       endIf: ({ G }) => {
         return G.deck.length < 1;
       },
-      start: true,
       next: "bid",
     },
     bid: {

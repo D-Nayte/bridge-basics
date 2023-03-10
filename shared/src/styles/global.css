@@ -1,0 +1,82 @@
+:root {
+  --blue: #4285f5;
+  --red: #ea4436;
+  --yellow: #fbbd06;
+  --green: #34a952;
+  --white: whitesmoke;
+  --text-color-dark: #2b2d42;
+  --text-color-light: #7a7da4;
+  --background-color: #2a9d8f;
+  --default-padding: 1rem;
+  --default-margin: 1rem;
+  --default-border-radius: 1rem;
+}
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  color: var(--text-color-dark);
+  font-size: 1.6rem;
+  background: url(../public/backgrounds/woodenbackground.svg);
+}
+h1 {
+  font-size: 2.2rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.8rem;
+}
+
+ul {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+button {
+  align-items: center;
+  appearance: button;
+  background: var(--background-color);
+  border-radius: var(--default-border-radius);
+  border-style: none;
+  box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
+  color: var(--white);
+  cursor: pointer;
+  display: flex;
+  padding: var(--default-padding) calc(var(--default-padding) * 2);
+  text-align: center;
+  text-transform: none;
+  transition: color 0.13s ease-in-out, background 0.13s ease-in-out,
+    opacity 0.13s ease-in-out, box-shadow 0.13s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+button:active {
+  background-color: var(--red);
+}
+
+button:hover {
+  background: var(--green);
+}
+
+/* BEM naming convention eg: parent-element__objectwithin-specifics
+
+examples: .stick-man__head-small 
+          .loading-screen__text-h1
+          .qr-container__qr-code
+*/

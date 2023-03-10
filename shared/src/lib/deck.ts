@@ -9,21 +9,7 @@ const createCard = (suit, rank) => {
 
 const createDeck = () => {
   const suits = ["C", "D", "H", "S"];
-  const ranks = [
-    "14",
-    "13",
-    "12",
-    "11",
-    "10",
-    "9",
-    "8",
-    "7",
-    "6",
-    "5",
-    "4",
-    "3",
-    "2",
-  ];
+  const ranks = [...Array(14 - 2 + 1)].map((_, index) => (2 + index).toString()).reverse();
 
   const newDeck = suits.reduce((acc, suit) => {
     return acc.concat(ranks.map((rank) => createCard(suit, rank)));

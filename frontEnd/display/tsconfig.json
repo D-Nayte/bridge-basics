@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES2018",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -16,8 +16,9 @@
     "incremental": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@shared/*": ["../../shared/*"],
-      "@components/*": ["./src/components/*"]
+      "@shared/*": ["../../shared/src/*"],
+      "@components/*": ["./src/components/*"],
+      "@interface": ["../../shared/src/interface/index.ts"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

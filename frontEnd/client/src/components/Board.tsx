@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
+
 const BridgeBoard = (props) => {
   const { G, ctx, moves, playerID, matchData } = props;
+  const currentPlayer = matchData[playerID];
 
   const handleBid = (e, playerId) => {
     e.preventDefault();
@@ -20,9 +23,13 @@ const BridgeBoard = (props) => {
     moves.reDouble();
   };
 
+  useEffect(() => {
+    moves.addToG(matchData[playerID]);
+  }, []);
+
   return (
     <>
-      <ul style={{ gap: "1rem" }}>
+      {/* <ul style={{ gap: "1rem" }}>
         {G.players &&
           G.players.map((player) => (
             <li key={player.name}>
@@ -57,7 +64,7 @@ const BridgeBoard = (props) => {
               <p>tricks: {player.bid?.level}</p>
             </li>
           ))}
-      </ul>
+      </ul> */}
     </>
   );
 };
