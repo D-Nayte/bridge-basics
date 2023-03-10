@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import createBridgeClient from "../../components/BridgeClient";
 
-const Index = ({ urls }) => {
+const Index = () => {
   const router = useRouter();
   const [matchData, setmatchData] = useState<{
     matchID: string;

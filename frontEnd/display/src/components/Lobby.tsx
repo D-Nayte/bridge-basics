@@ -87,9 +87,6 @@ const Lobby = ({ urls }: { urls: URLS }) => {
 
   return (
     <>
-      {BridgeClient && matchData && (
-        <BridgeClient matchID={matchData.matchID} />
-      )}
       <div className={lobby.lobby}>
         <p>MatchID{matchURL}</p>
 
@@ -102,6 +99,9 @@ const Lobby = ({ urls }: { urls: URLS }) => {
         </p>
       </div>
       <Loading />
+      {BridgeClient && matchData && (
+        <BridgeClient matchID={matchData.matchID} />
+      )}
     </>
   );
 };

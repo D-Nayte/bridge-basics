@@ -6,10 +6,13 @@ import {
   TurnOrder,
 } from "../../node_modules/boardgame.io/core";
 import createDeck from "./deck";
+import { Bid, BridgeParams, BridgeState, Player, RawPlayer } from "@/interface";
+import type { Game, Move, Ctx, FnContext } from "boardgame.io";
+import { BoardProps } from "boardgame.io/react";
 
-const dealToPlayer = (G) => {
+const dealToPlayer = ({ G }: BridgeParams) => {
   const deck = G.deck;
-  G.players = G.players.map((player) => {
+  G.players = G.players.map((player: Player) => {
     player.hand = dealCards(deck);
     return player;
   });
@@ -63,14 +66,17 @@ const players = [
   },
 ];
 
-const bid = ({ G, ctx }, { bidLevel, bidSuit }) => {
+const bid = (
+  { G, ctx }: BridgeParams,
+  { bidLevel, bidSuit }: { bidLevel: string; bidSuit: string }
+) => {
   const playerIndex = parseInt(ctx.currentPlayer);
   const player = G.players[playerIndex];
 
   const prevBid = G.madeBids.find(
-    (bid) =>
-      (bid.bidLevel === bidLevel && bid.bidSuit === bidSuit) ||
-      (bid.bidsuit === bidSuit && bid.bidLevel >= bidLevel)
+    (bid: Bid) =>
+      (bid.level === bidLevel && bid.suit === bidSuit) ||
+      (bid.suit === bidSuit && bid.level && bid.level >= bidLevel)
   );
   if (prevBid) return INVALID_MOVE;
 
@@ -81,26 +87,27 @@ const bid = ({ G, ctx }, { bidLevel, bidSuit }) => {
   if (player.bid.suit !== bidSuit)
     (player.bid.double = false), (player.bid.redouble = false);
 
-  G.madeBids.push({ bidLevel, bidSuit });
+  G.madeBids.push({ level: bidLevel, suit: bidSuit });
 };
 
-const playerpassed = ({ G, ctx, events }) => {
-  events.endTurn({ next: "3" });
+const playerpassed = ({ G, ctx, events }: BridgeParams) => {
+  events.endTurn && events.endTurn({ next: "3" });
   G.players[parseInt(ctx.currentPlayer)].passed = true;
 };
 
-const checkIfPlayerHadPassed = ({ G, ctx, events }) => {
+const checkIfPlayerHadPassed = ({ G, ctx, events }: BridgeParams) => {
   if (G.players[parseInt(ctx.currentPlayer)].passed)
-    events.endTurn({
-      next: (ctx.playOrderPos + 1).toString(),
-    });
+    events.endTurn &&
+      events.endTurn({
+        next: (ctx.playOrderPos + 1).toString(),
+      });
 };
 
 const playCard = () => {
   console.log("play round");
 };
 
-const double = ({ G, ctx }) => {
+const double = ({ G, ctx }: BridgeParams) => {
   const currPlayerIndex = parseInt(ctx.currentPlayer);
   G.players[currPlayerIndex].passed = true;
 
@@ -116,7 +123,7 @@ const double = ({ G, ctx }) => {
   return INVALID_MOVE;
 };
 
-const reDouble = ({ G, ctx }) => {
+const reDouble = ({ G, ctx }: BridgeParams) => {
   const currPlayerIndex = parseInt(ctx.currentPlayer);
   //redouble themself... needed?????
   // const currentPlayer = G.players[currPlayerIndex];
@@ -136,14 +143,24 @@ const reDouble = ({ G, ctx }) => {
   return INVALID_MOVE;
 };
 
-const addToG = ({ G, ctx }, player) => {
+const addToG = ({ G, ctx }: BridgeParams, player: RawPlayer) => {
   console.log("player :>> ", player);
-  if (G.players.find((currPlayer) => currPlayer.id === parseInt(player.id)))
+  if (G.players.find((currPlayer: Player) => currPlayer.id === player.id))
     return INVALID_MOVE;
-  G.players.push(player);
+  G.players.push({
+    ...player,
+    hand: [],
+    passed: false,
+    bid: {
+      suit: null,
+      level: null,
+      double: null,
+      redouble: null,
+    },
+  });
 };
 
-export const Bridge = {
+export const Bridge: Game<BridgeState> = {
   name: "bridge",
   setup: ({ ctx }) => {
     return {
@@ -153,6 +170,7 @@ export const Bridge = {
       trickIndex: -1,
       contract: null,
       players: [],
+      dealt: false,
     };
   },
 
@@ -174,9 +192,7 @@ export const Bridge = {
     },
 
     build: {
-      onBegin: ({ G, ctx }) => {
-        dealToPlayer(G);
-      },
+      onBegin: dealToPlayer,
       endIf: ({ G }) => {
         return G.deck.length < 1;
       },
@@ -187,9 +203,8 @@ export const Bridge = {
       endIf: ({ G }) => G.contract !== null, // end turn after contract was build
       next: "play",
       turn: {
-        onBegin: ({ G, ctx, events }) => {
-          checkIfPlayerHadPassed({ G, ctx, events });
-        },
+        onBegin: checkIfPlayerHadPassed,
+
         maxMoves: 1,
         onEnd: ({ G, ctx }) => {
           // if 3 players pass, setup the contract
@@ -199,7 +214,9 @@ export const Bridge = {
           });
           if (passedPlayers === 3) {
             const wonPlayer = G.players.find((player) => !player.passed);
-            G.contract = wonPlayer.bid;
+            wonPlayer?.bid
+              ? (G.contract = wonPlayer.bid)
+              : console.error("Error finding the won player in play/onEnd");
           }
         },
       },
