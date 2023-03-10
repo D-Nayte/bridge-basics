@@ -111,8 +111,8 @@ const Lobby = ({ urls }: { urls: URLS }) => {
       {demo && (
         <iframe
           src={`/game?id=${matchData?.matchID}&&playerID=${currPlayerData?.id}&&playerCredentials=${currPlayerData?.playerCredentials}`}
-          width="90%"
-          height={"300px"}
+          width="70%"
+          height={"350px"}
           style={{
             border: "5px solid red",
             marginBottom: "2rem",
