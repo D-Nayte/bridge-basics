@@ -1,4 +1,5 @@
 import type { Game, Move, Ctx, FnContext } from "boardgame.io";
+import type { BoardProps } from "boardgame.io/react";
 
 export interface URLS {
   serverURL: URL;
@@ -28,6 +29,17 @@ export interface Bid {
   redouble?: null | boolean;
 }
 
+export interface Card {
+  name: string;
+  suit: string;
+  rank: number;
+  image: string;
+}
+
+export interface DeckPoints {
+  [key: string]: number;
+}
+
 export interface RawPlayer {
   id: number;
   data?: { imageURL: string };
@@ -36,21 +48,46 @@ export interface RawPlayer {
   isConnected?: boolean;
 }
 
-export interface Player extends RawPlayer {
-  hand: string[];
-  passed: boolean;
-  bid: Bid;
+export interface Vulnerability {
+  [key: string]: number[];
 }
 
+export interface Player extends RawPlayer {
+  hand: Card[];
+  passed: boolean;
+  bid: Bid;
+  scores: number;
+}
+
+export interface Trick {
+  cards: PlayerCard[];
+  playerID: string;
+}
+export interface PlayerCard {
+  card: Card;
+  playerID: string;
+}
+
+export interface Contract extends Bid {
+  playerID: string;
+}
+
+//G
 export interface BridgeState {
-  deck: string[];
-  tricks: string[];
+  deck: Card[];
+  tricks: Trick[];
   madeBids: Bid[];
   trickIndex: number;
-  contract: null | Bid;
+  contract: null | Contract;
   players: Player[];
   dealt: boolean;
+  turnOrder: string[];
+  table: PlayerCard[];
+  vulnerabilitySetup: { index: number; order: string[] };
 }
 
 export interface BridgeParams
   extends FnContext<BridgeState, Record<string, unknown>> {}
+
+// React component
+export interface BridgeProps extends BoardProps<BridgeState> {}

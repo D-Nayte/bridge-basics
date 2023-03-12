@@ -10,7 +10,7 @@ const Index = () => {
     playerID: string;
   } | null>(null);
   const BrideClient = createBridgeClient({
-    socketAdress: "localhost:8080",
+    socketAdress: `localhost:${process.env.NEXT_PUBLIC_SERVER_PORT}`,
   });
 
   useEffect(() => {

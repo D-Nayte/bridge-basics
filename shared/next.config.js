@@ -13,7 +13,7 @@ const nextConfig = {
     config.module.rules.push({
       test: /\.tsx?$/,
       include: [
-        path.resolve(__dirname, "."), // Include the "shared" folder
+        path.resolve(__dirname, "./src"), // Include the "shared" folder
         path.resolve(__dirname, "./"), // Include the "this" folder
       ],
       use: [
