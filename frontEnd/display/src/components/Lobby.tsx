@@ -71,9 +71,10 @@ const Lobby = ({ urls }: { urls: URLS }) => {
     const lobbyURL = new URL(`${protocoll}${serverIp}:${clientPort}`);
     lobbyURL.pathname = "lobby";
     lobbyURL.searchParams.set("matchID", matchID);
-    console.log("lobbyURL :>> ", lobbyURL);
     setmatchURL(lobbyURL.href);
-    const BrideClient = createBridgeClient({ socketAdress: "localhost:8080" });
+    const BrideClient = createBridgeClient({
+      socketAdress: `localhost:${process.env.NEXT_PUBLIC_SERVER_PORT}`,
+    });
     setBridgeClient((prev: any) => (prev = BrideClient));
   };
 
@@ -87,9 +88,6 @@ const Lobby = ({ urls }: { urls: URLS }) => {
 
   return (
     <>
-      {BridgeClient && matchData && (
-        <BridgeClient matchID={matchData.matchID} />
-      )}
       <div className={lobby.lobby}>
         <p>MatchID{matchURL}</p>
 
@@ -102,6 +100,9 @@ const Lobby = ({ urls }: { urls: URLS }) => {
         </p>
       </div>
       <Loading />
+      {BridgeClient && matchData && (
+        <BridgeClient matchID={matchData.matchID} />
+      )}
     </>
   );
 };

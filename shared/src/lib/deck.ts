@@ -1,4 +1,6 @@
-const createCard = (suit, rank) => {
+import { Card } from "../interface/index";
+
+const createCard = (suit: string, rank: string) => {
   return {
     name: rank + suit,
     suit,
@@ -7,14 +9,24 @@ const createCard = (suit, rank) => {
   };
 };
 
-const createDeck = () => {
+const createDeck: () => Card[] = () => {
   const suits = ["C", "D", "H", "S"];
-  const ranks = [...Array(14 - 2 + 1)].map((_, index) => (2 + index).toString()).reverse();
+  const ranks = [...Array(14 - 2 + 1)]
+    .map((_, index) => (2 + index).toString())
+    .reverse();
 
-  const newDeck = suits.reduce((acc, suit) => {
-    return acc.concat(ranks.map((rank) => createCard(suit, rank)));
+  const newDeck: Card[] = suits.reduce<Card[]>((acc, suit) => {
+    return acc.concat(ranks.map((rank: string) => createCard(suit, rank)));
   }, []);
   return newDeck;
+};
+
+export const deckPoints = {
+  C: 20, //treff
+  D: 20, //Karo/Diamond
+  H: 30, //Heart/Coeur
+  S: 30, //Pid/Spead
+  NT: 40,
 };
 
 export default createDeck;

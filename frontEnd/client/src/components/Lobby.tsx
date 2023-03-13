@@ -1,22 +1,17 @@
 import { useRouter } from "next/router";
 import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import { LobbyClient } from "boardgame.io/client";
-import { Match, MatchData, URLS } from "@interface";
+import { Match, MatchData, RawPlayer, URLS } from "@interface";
 import Link from "next/link";
-
-interface Player {
-  id: number;
-  data?: { imageURL: string };
-  name: string | undefined;
-  playerCredentials?: string;
-}
+import { starterName } from "../utils/randomName";
 
 const Lobby = ({ urls }: { urls: URLS }) => {
   const router = useRouter();
   const { serverURL } = urls;
   const [matchData, setmatchData] = useState<MatchData | null>(null);
-  const [playerName, setplayerName] = useState<string>("Andy");
-  const [currPlayerData, setcurrPlayerData] = useState<Player | null>(null);
+  const [playerName, setplayerName] = useState<string>(starterName());
+  const [currPlayerData, setcurrPlayerData] = useState<RawPlayer | null>(null);
+  const [demo, setdemo] = useState(false);
   const randomAvatarURL = `https://api.dicebear.com/5.x/micah/svg?seed=${encodeURI(
     playerName
   )}`;
@@ -52,7 +47,6 @@ const Lobby = ({ urls }: { urls: URLS }) => {
           "bridge",
           matchData.matchID
         );
-        console.log("players :>> ", players);
         const { id, data, name } = players[parseInt(playerID)];
         setcurrPlayerData({
           id,
@@ -112,6 +106,19 @@ const Lobby = ({ urls }: { urls: URLS }) => {
           PLAY!
         </Link>
       </button>
+      <button onClick={() => setdemo(true)}>Demo Play!</button>
+
+      {demo && (
+        <iframe
+          src={`/game?id=${matchData?.matchID}&&playerID=${currPlayerData?.id}&&playerCredentials=${currPlayerData?.playerCredentials}`}
+          width="70%"
+          height={"350px"}
+          style={{
+            border: "5px solid red",
+            marginBottom: "2rem",
+            boxShadow: "0 5px 10px 3px black",
+          }}></iframe>
+      )}
     </>
   );
 };

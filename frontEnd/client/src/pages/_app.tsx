@@ -1,8 +1,8 @@
 import "@shared/styles/global.css";
 import { useEffect, useState } from "react";
-import Layout from "@components/Layout";
+import Layout from "@clientComponents/Layout";
 import type { AppProps } from "next/app";
-import { URLS } from "@shared/interface";
+import { URLS } from "@interface";
 import { getURLs } from "@shared/utils/urls";
 
 export default function App({ Component, pageProps }: AppProps) {

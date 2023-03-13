@@ -8,6 +8,11 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "workspaces": {
+    "packages": [
+      "../../*"
+    ]
+  },
   "dependencies": {
     "@types/node": "18.14.6",
     "@types/react": "18.0.28",

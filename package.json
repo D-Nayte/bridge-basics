@@ -3,19 +3,30 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "install_client": "cd frontEnd/client/ && npm install",
-    "install_display": "cd frontEnd/display && npm install",
-    "install_server": "cd server/ && npm install",
-    "install_dep": "concurrently --kill-others \"npm run install_client\" \"npm run install_display\" \"npm run install_server\"",
     "dev_client": "cd frontEnd/client/ && npm run dev -- --port 3001",
     "dev_display": "cd frontEnd/display/ && npm run dev -- --port 3002",
     "dev_server": "cd server/ && npm run dev",
     "dev": "concurrently --kill-others \"npm run dev_client\" \"npm run dev_display\" \"npm run dev_server\""
   },
   "dependencies": {
+    "@types/node": "18.14.6",
+    "@types/react": "18.0.28",
+    "@types/react-dom": "18.0.11",
     "boardgame.io": "^0.50.2",
+    "dotenv": "^16.0.3",
+    "next": "^13.2.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "4.9.5",
     "concurrently": "^7.6.0",
     "qrcode.react": "^3.1.0",
-    "react-icons": "^4.8.0"
+    "react-icons": "^4.8.0",
+    "@next/font": "13.1.6",
+    "cors": "^2.8.5",
+    "esm": "^3.2.25"
+  },
+  "devDependencies": {
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.5"
   }
 }

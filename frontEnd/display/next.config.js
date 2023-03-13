@@ -8,6 +8,7 @@ const ENV = require("dotenv").config({
 const nextConfig = {
   reactStrictMode: true,
   env: ENV,
+
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Use any custom loaders or presets here
     config.module.rules.push({
