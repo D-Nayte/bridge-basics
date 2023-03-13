@@ -1,13 +1,8 @@
 .lobby {
-  padding: 2rem;
   position: relative;
   align-items: center;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-}
-
-.lobby p {
-  padding: 2rem;
 }

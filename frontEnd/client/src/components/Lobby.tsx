@@ -6,6 +6,7 @@ import Link from "next/link";
 import { starterName } from "../utils/randomName";
 
 const Lobby = ({ urls }: { urls: URLS }) => {
+  console.log("urls", urls);
   const router = useRouter();
   const { serverURL } = urls;
   const [matchData, setmatchData] = useState<MatchData | null>(null);
@@ -15,6 +16,7 @@ const Lobby = ({ urls }: { urls: URLS }) => {
   const randomAvatarURL = `https://api.dicebear.com/5.x/micah/svg?seed=${encodeURI(
     playerName
   )}`;
+  console.log("randomAvatarURL", randomAvatarURL);
   const lobbyClient = new LobbyClient({ server: serverURL.origin });
 
   // join a match and store relevant data in state
@@ -90,7 +92,9 @@ const Lobby = ({ urls }: { urls: URLS }) => {
     <>
       <h2>CurrentPlayer</h2>
       <h3>{currPlayerData?.name}</h3>
+
       <img src={currPlayerData?.data?.imageURL} alt="" width="50px" />
+
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -102,7 +106,8 @@ const Lobby = ({ urls }: { urls: URLS }) => {
 
       <button>
         <Link
-          href={`/game?id=${matchData?.matchID}&&playerID=${currPlayerData?.id}&&playerCredentials=${currPlayerData?.playerCredentials}`}>
+          href={`/game?id=${matchData?.matchID}&&playerID=${currPlayerData?.id}&&playerCredentials=${currPlayerData?.playerCredentials}`}
+        >
           PLAY!
         </Link>
       </button>
@@ -117,7 +122,8 @@ const Lobby = ({ urls }: { urls: URLS }) => {
             border: "5px solid red",
             marginBottom: "2rem",
             boxShadow: "0 5px 10px 3px black",
-          }}></iframe>
+          }}
+        ></iframe>
       )}
     </>
   );

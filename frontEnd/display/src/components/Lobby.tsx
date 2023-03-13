@@ -89,20 +89,10 @@ const Lobby = ({ urls }: { urls: URLS }) => {
   return (
     <>
       <div className={lobby.lobby}>
-        <p>MatchID{matchURL}</p>
-
-        <p>
-          {matchURL !== "" && (
-            <Link href={`${matchURL}`} target="_blank">
-              <Qrcode matchURL={matchURL} />
-            </Link>
-          )}
-        </p>
+        {BridgeClient && matchData && (
+          <BridgeClient matchID={matchData.matchID} matchURL={matchURL} />
+        )}
       </div>
-      <Loading />
-      {BridgeClient && matchData && (
-        <BridgeClient matchID={matchData.matchID} />
-      )}
     </>
   );
 };

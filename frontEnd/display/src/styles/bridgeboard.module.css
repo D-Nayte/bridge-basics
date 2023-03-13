@@ -1,0 +1,37 @@
+.players_container_ul {
+  padding: 1rem;
+  gap: 1rem;
+  display: subgrid;
+}
+
+.bridgeboard_container {
+  display: grid;
+  height: auto;
+  width: auto;
+  grid-template-areas:
+    ". playerN ."
+    "playerW logic playerE"
+    ". playerS .";
+
+  grid-template-columns: min-content max-content;
+}
+
+.bridgeboard_logic {
+  width: 200px;
+  height: 200px;
+
+  grid-area: logic;
+}
+
+.bridgeboard_container ul li:nth-child(1) {
+  grid-area: playerN;
+}
+.bridgeboard_container ul li:nth-child(2) {
+  grid-area: playerE;
+}
+.bridgeboard_container ul li:nth-child(3) {
+  grid-area: playerS;
+}
+.bridgeboard_container ul li:nth-child(4) {
+  grid-area: playerW;
+}
