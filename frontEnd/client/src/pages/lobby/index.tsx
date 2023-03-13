@@ -4,9 +4,6 @@ const Index = (props: any) => {
   return (
     <div>
       <Lobby {...props} />
-      <Lobby {...props} />
-      <Lobby {...props} />
-      <Lobby {...props} />
     </div>
   );
 };

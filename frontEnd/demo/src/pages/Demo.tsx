@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { LobbyClient } from "boardgame.io/client";
 import { Match, MatchData, URLS } from "@interface";
-import createBridgeClient from "./BridgeClient";
+import createBridgeClient from "@displayComponents/BridgeClient";
 import { useRouter } from "next/router";
 
-const Lobby = ({ urls }: { urls: URLS }) => {
+const Demo = ({ urls }: { urls: URLS }) => {
   const clientPort: String | undefined = process.env.NEXT_PUBLIC_CLIENT_PORT;
-  const { serverURL } = urls;
+  const { serverURL, displayURL } = urls;
   const lobbyClient = new LobbyClient({ server: serverURL.origin });
   const [matchData, setmatchData] = useState<MatchData | null>(null);
-  const BridgeClient = createBridgeClient({
-    socketAdress: `localhost:${process.env.NEXT_PUBLIC_SERVER_PORT}`,
-  });
-  // const [BridgeClient, setBridgeClient] = useState<any>();
+  const [BridgeClient, setBridgeClient] = useState<any>();
+  const [matchID, setmatchID] = useState<string>("");
   const [matchURL, setmatchURL] = useState<string>("");
+  const [displayJoinURL, setdisplayJoinURL] = useState<string>("");
+  const [joiningDisplay, setjoiningDisplay] = useState<string>("");
   const router = useRouter();
 
   // create a game on server and return the matchID
@@ -29,10 +29,8 @@ const Lobby = ({ urls }: { urls: URLS }) => {
       });
       const response = await fetch(url.href, { method: "POST" });
       const { serverIp } = await response.json();
-
+      setmatchID(matchID);
       createClientURL({ serverIp, matchID, protocoll });
-      joinMatch(matchID);
-      setmatchData({ matchID });
     } catch (error) {
       console.error("Failed to get match id and server ip", error);
     }
@@ -74,6 +72,10 @@ const Lobby = ({ urls }: { urls: URLS }) => {
     lobbyURL.pathname = "lobby";
     lobbyURL.searchParams.set("matchID", matchID);
     setmatchURL(lobbyURL.href);
+    const BrideClient = createBridgeClient({
+      socketAdress: `localhost:${process.env.NEXT_PUBLIC_SERVER_PORT}`,
+    });
+    setBridgeClient((prev: any) => (prev = BrideClient));
   };
 
   useEffect(() => {}, []);
@@ -90,22 +92,60 @@ const Lobby = ({ urls }: { urls: URLS }) => {
           createGame(protocoll);
           return;
         }
-
-        if (matchID && typeof matchID === "string") {
-          setmatchData({ matchID });
-          joinMatch(matchID);
-        }
       }
     }
   }, [router.isReady]);
 
+  useEffect(() => {
+    console.log("TEST!!!!!! :>> ", matchData);
+    if (matchID) {
+      joinMatch(matchID);
+      displayURL.searchParams.set("matchID", matchID);
+      setdisplayJoinURL(displayURL.href);
+      console.log("displayURL :>> ", displayURL);
+    }
+  }, [matchID]);
+
+  const container = {
+    width: "100vw",
+    height: "100vh",
+    display: "flex",
+    gap: "2rem",
+    padding: "0 1rem",
+  };
+
+  const displayStyle = {
+    height: "80vh",
+    boxShadow: "3px 3px 20px 0 black",
+    padding: "0",
+    aspectRatio: "1.7/1",
+  };
+  const clientStyle = {
+    height: "45vh",
+    boxShadow: "3px 3px 20px 0 black",
+    padding: "0",
+    aspectRatio: "9/16",
+    margin: ".5rem",
+  };
+
   return (
     <>
-      {BridgeClient && matchData && (
-        <BridgeClient matchID={matchData.matchID} />
-      )}
+      <div>
+        {displayJoinURL && (
+          <div style={container}>
+            <iframe src={displayJoinURL} style={displayStyle}></iframe>
+
+            <div className="clients">
+              <iframe src={matchURL} style={clientStyle}></iframe>
+              <iframe src={matchURL} style={clientStyle}></iframe>
+              <iframe src={matchURL} style={clientStyle}></iframe>
+              <iframe src={matchURL} style={clientStyle}></iframe>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 };
 
-export default Lobby;
+export default Demo;
