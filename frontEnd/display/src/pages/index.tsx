@@ -1,4 +1,4 @@
-import Lobby from "@/components/Lobby";
+import Lobby from "@displayComponents/Lobby";
 import Head from "next/head";
 
 export default function Home(props: any) {

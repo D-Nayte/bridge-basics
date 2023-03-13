@@ -11,6 +11,11 @@
     "dotenv": "^16.0.3",
     "esm": "^3.2.25"
   },
+  "workspaces": {
+    "packages": [
+      "../*"
+    ]
+  },
   "devDependencies": {
     "@types/node": "^18.14.6",
     "ts-node": "^10.9.1",

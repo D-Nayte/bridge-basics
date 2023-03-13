@@ -8,15 +8,7 @@ const ENV = require("dotenv").config({
 const nextConfig = {
   reactStrictMode: true,
   env: ENV,
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: "ts-loader",
-      },
-    ],
-  },
+
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Use any custom loaders or presets here
     config.module.rules.push({

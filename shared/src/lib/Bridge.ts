@@ -4,7 +4,7 @@ import {
   ActivePlayers,
   INVALID_MOVE,
   TurnOrder,
-} from "../../node_modules/boardgame.io/core";
+} from "../../../node_modules/boardgame.io/core";
 import createDeck from "./deck";
 import {
   Bid,
