@@ -1,6 +1,5 @@
 import React from "react";
 import { BridgeProps, Card, Player, PlayerCard, Trick } from "@interface";
-
 import style from "../styles/playerprofile.module.css";
 
 interface PlayerProfile extends BridgeProps {
@@ -9,6 +8,7 @@ interface PlayerProfile extends BridgeProps {
 
 const PlayerProfile = (props: PlayerProfile) => {
   const { player, ctx, matchData, G } = props;
+
   const isDisconnected: boolean = matchData
     ? !matchData[player.id].isConnected
     : true;
