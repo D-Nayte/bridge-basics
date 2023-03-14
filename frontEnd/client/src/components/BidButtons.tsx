@@ -1,0 +1,38 @@
+import React from "react";
+import style from "../style/bidbuttons.module.css";
+
+const BidButtons = ({ moves }: { moves: any }) => {
+  const handlePass = () => {
+    moves.playerpassed();
+  };
+
+  const handleDouble = () => {
+    moves.double();
+  };
+
+  const handleReDouble = () => {
+    moves.reDouble();
+  };
+
+  return (
+    <>
+      <li className={style.bidbuttons}>
+        <button className={style.bidbuttons_button} onClick={handlePass}>
+          Pass
+        </button>
+      </li>
+      <li className={style.bidbuttons}>
+        <button className={style.bidbuttons_button} onClick={handleDouble}>
+          X
+        </button>
+      </li>
+      <li className={style.bidbuttons}>
+        <button className={style.bidbuttons_button} onClick={handleReDouble}>
+          XX
+        </button>
+      </li>
+    </>
+  );
+};
+
+export default BidButtons;

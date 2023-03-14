@@ -26,7 +26,7 @@ const Index = () => {
   }, [router.isReady]);
 
   return (
-    <>
+    <main>
       {matchData && (
         <BrideClient
           matchID={matchData.matchID}
@@ -34,7 +34,7 @@ const Index = () => {
           credentials={matchData.playerCredentials}
         />
       )}
-    </>
+    </main>
   );
 };
 

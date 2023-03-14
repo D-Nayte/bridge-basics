@@ -1,10 +1,8 @@
 import "@shared/styles/global.css";
-import "../style/globalClient.css";
-import { useEffect, useState } from "react";
-import Layout from "@clientComponents/Layout";
 import type { AppProps } from "next/app";
-import { URLS } from "@interface";
+import { useEffect, useState } from "react";
 import { getURLs } from "@shared/utils/urls";
+import { URLS } from "@interface";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [urls, seturls] = useState<URLS | null>(null);
@@ -21,11 +19,6 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
 
   if (!urls) return;
-  return (
-    <>
-      <Layout>
-        <Component {...pageProps} urls={urls} />
-      </Layout>
-    </>
-  );
+
+  return <Component {...pageProps} urls={urls} />;
 }

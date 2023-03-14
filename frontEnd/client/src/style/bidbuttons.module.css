@@ -1,0 +1,5 @@
+.bidbuttons_button {
+  display: flex;
+  width: 7rem;
+  justify-content: center;
+}

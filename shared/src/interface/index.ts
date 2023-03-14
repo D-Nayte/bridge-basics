@@ -17,8 +17,8 @@ export interface Match {
 }
 
 export interface MatchData {
-  playerID: string;
-  playerCredentials: string;
+  playerID?: string;
+  playerCredentials?: string;
   matchID: string;
 }
 

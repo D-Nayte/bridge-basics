@@ -1,16 +1,17 @@
 import React from "react";
 import { BridgeProps, Card, Player, PlayerCard, Trick } from "@interface";
-import PlayerProfile from "./PlayerProfile";
-import Link from "next/link";
 import Qrcode from "./Qrcode";
+import Link from "next/link";
+import PlayerProfile from "./PlayerProfile";
 import style from "../styles/bridgeboard.module.css";
 import Logic from "./Logic";
 
-interface BridgeBoard extends BridgeProps {
+interface BridgeBoardProps extends BridgeProps {
+  matchID: string;
   matchURL: string;
 }
 
-const BridgeBoard = (props: BridgeBoard) => {
+const BridgeBoard = (props: BridgeBoardProps) => {
   const { G, ctx, plugins, matchData, matchURL } = props;
   console.log("props :>> ", props);
   return (
