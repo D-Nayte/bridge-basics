@@ -18,6 +18,26 @@ const BridgeBoard = (props: BridgeProps) => {
   return (
     <main>
       <GamePhase {...props} player={player}></GamePhase>;
+      <button
+        style={{
+          position: "absolute",
+          top: "0px",
+          right: "0px",
+          padding: ".5rem",
+        }}
+        onClick={() => moves.finishGame()}>
+        Finish play Phase
+      </button>
+      <button
+        style={{
+          position: "absolute",
+          top: "0px",
+          left: "0px",
+          padding: ".5rem",
+        }}
+        onClick={() => moves.startNewRound()}>
+        start new Round
+      </button>
     </main>
   );
 };

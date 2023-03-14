@@ -9,7 +9,7 @@
 .temp_text {
   font-size: 2rem;
   position: absolute;
-  top: 1%;
+  bottom: 0%;
 }
 .buttons_wrapper {
   display: flex;
