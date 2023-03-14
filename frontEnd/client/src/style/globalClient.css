@@ -1,0 +1,14 @@
+/* Boradgameio debug panel */
+.panel {
+  height: 66% !important;
+  justify-content: right;
+}
+
+.panel > button {
+  transform: translateX(160%);
+}
+
+.panel .pane {
+  width: 200px !important;
+  flex-grow: 0 !important;
+}

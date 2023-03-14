@@ -115,13 +115,13 @@ const Demo = ({ urls }: { urls: URLS }) => {
   };
 
   const displayStyle = {
-    height: "80vh",
+    height: "70vh",
     boxShadow: "3px 3px 20px 0 black",
     padding: "0",
     aspectRatio: "1.7/1",
   };
   const clientStyle = {
-    height: "45vh",
+    height: "48vh",
     boxShadow: "3px 3px 20px 0 black",
     padding: "0",
     aspectRatio: "9/16",

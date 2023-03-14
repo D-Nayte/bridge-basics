@@ -1,12 +1,22 @@
 import React from "react";
 import { BridgeProps, Card, PlayerCard, Trick } from "@interface";
+import Qrcode from "./Qrcode";
+import Link from "next/link";
 
-const BridgeBoard = (props: BridgeProps) => {
-  const { G, ctx, plugins, matchData } = props;
+interface BridgeBoardProps extends BridgeProps {
+  matchID: string;
+  matchURL: string;
+}
+
+const BridgeBoard = (props: BridgeBoardProps) => {
+  const { G, ctx, plugins, matchData, matchURL } = props;
   console.log("props :>> ", props);
   return (
     <div>
       <h1>BridgeBoard</h1>
+      <Link href={matchURL} target="_blank">
+        <Qrcode matchURL={matchURL} />
+      </Link>
       <ul style={{ display: "flex" }}>
         {G.players &&
           G.players.map(

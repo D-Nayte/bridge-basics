@@ -4,6 +4,7 @@ import { LobbyClient } from "boardgame.io/client";
 import { Match, MatchData, RawPlayer, URLS } from "@interface";
 import Link from "next/link";
 import { starterName } from "../utils/randomName";
+import lobby from "../style/lobby.module.css";
 
 const Lobby = ({ urls }: { urls: URLS }) => {
   const router = useRouter();
@@ -16,6 +17,7 @@ const Lobby = ({ urls }: { urls: URLS }) => {
     playerName
   )}`;
   const lobbyClient = new LobbyClient({ server: serverURL.origin });
+  const gameURL = `/game?id=${matchData?.matchID}&&playerID=${currPlayerData?.id}&&playerCredentials=${currPlayerData?.playerCredentials}`;
 
   // join a match and store relevant data in state
   const joinMatch = async (matchID: string) => {
@@ -40,7 +42,7 @@ const Lobby = ({ urls }: { urls: URLS }) => {
 
   // get current macth and sture userData in state
   const getCurrentMatch = async () => {
-    if (matchData) {
+    if (matchData?.playerID) {
       const { playerID, playerCredentials, matchID } = matchData;
       try {
         const { players } = await lobbyClient.getMatch(
@@ -65,9 +67,11 @@ const Lobby = ({ urls }: { urls: URLS }) => {
     e.preventDefault();
     if (matchData) {
       const { playerID, playerCredentials, matchID } = matchData;
+      if (!playerID || !playerCredentials)
+        return console.error("Can't update player. Match data wrong");
 
-      await lobbyClient.updatePlayer("bridge", matchData.matchID, {
-        credentials: playerCredentials,
+      await lobbyClient.updatePlayer("bridge", matchID, {
+        credentials: playerCredentials || "undefined",
         playerID,
         newName: playerName,
       });
@@ -87,39 +91,23 @@ const Lobby = ({ urls }: { urls: URLS }) => {
   }, [router.isReady]);
 
   return (
-    <>
-      <h2>CurrentPlayer</h2>
-      <h3>{currPlayerData?.name}</h3>
-      <img src={currPlayerData?.data?.imageURL} alt="" width="50px" />
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="changeName"
-          onChange={(e) => setplayerName(e.target.value)}
-        />
-        <button>Change</button>
-      </form>
-
+    <div className={lobby.wrapper}>
+      <div>
+        <img src={currPlayerData?.data?.imageURL} alt="" />
+        <h3>{currPlayerData?.name}</h3>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="changeName"
+            onChange={(e) => setplayerName(e.target.value)}
+          />
+          <button>Change Name</button>
+        </form>
+      </div>
       <button>
-        <Link
-          href={`/game?id=${matchData?.matchID}&&playerID=${currPlayerData?.id}&&playerCredentials=${currPlayerData?.playerCredentials}`}>
-          PLAY!
-        </Link>
+        <Link href={gameURL}>Join Game</Link>
       </button>
-      <button onClick={() => setdemo(true)}>Demo Play!</button>
-
-      {demo && (
-        <iframe
-          src={`/game?id=${matchData?.matchID}&&playerID=${currPlayerData?.id}&&playerCredentials=${currPlayerData?.playerCredentials}`}
-          width="70%"
-          height={"350px"}
-          style={{
-            border: "5px solid red",
-            marginBottom: "2rem",
-            boxShadow: "0 5px 10px 3px black",
-          }}></iframe>
-      )}
-    </>
+    </div>
   );
 };
 

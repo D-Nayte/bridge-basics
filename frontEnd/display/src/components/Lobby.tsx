@@ -102,7 +102,7 @@ const Lobby = ({ urls }: { urls: URLS }) => {
   return (
     <>
       {BridgeClient && matchData && (
-        <BridgeClient matchID={matchData.matchID} />
+        <BridgeClient matchID={matchData.matchID} matchURL={matchURL} />
       )}
     </>
   );
