@@ -13,11 +13,9 @@ const port: number = parseInt(process.env.NEXT_PUBLIC_SERVER_PORT || "8080");
 const server = Server({
   games: [Bridge],
   origins: [
-    "http://192.168.178.20:3001",
-    "http://192.168.1.22:3001",
+    Origins.LOCALHOST_IN_DEVELOPMENT,
     Origins.LOCALHOST,
-    // Allow localhost to connect, except when NODE_ENV is 'production'.
-    //Origins.LOCALHOST_IN_DEVELOPMENT,
+    /^https?:\/\/([^\s:\/]+)((?:\/|:)\S*)?$/i,
   ],
 });
 
@@ -27,3 +25,8 @@ server.router.post("/serverIp", (ctx, next) => {
 });
 
 server.run(port);
+
+// ["http://1.1.1.1:1",
+//   "http://192.168.1.22:3001",]
+// ["http://192.168.178.20:3001",
+//   "http://192.168.1.22:3001",]

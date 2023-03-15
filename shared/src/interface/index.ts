@@ -24,7 +24,6 @@ export interface MatchData {
 
 export type Suit = "H" | "D" | "C" | "S" | "NT";
 
-
 export interface Bid {
   suit: Suit;
   level: string;
@@ -73,7 +72,6 @@ export interface PlayerCard {
 
 export interface Contract extends Bid {
   playerID: string;
-
 }
 
 //G
@@ -87,7 +85,10 @@ export interface BridgeState {
   dealt: boolean;
   turnOrder: string[];
   table: PlayerCard[];
-  vulnerabilitySetup: { index: number; order: string[] };
+  vulnerabilitySetup: {
+    index: number;
+    order: [[], [0, 2], [1, 3], [0, 1, 2, 3]];
+  };
 }
 
 export interface BridgeParams
