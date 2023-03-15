@@ -11,7 +11,7 @@ const Lobby = ({ urls }: { urls: URLS }) => {
   const lobbyClient = new LobbyClient({ server: serverURL.origin });
   const [matchData, setmatchData] = useState<MatchData | null>(null);
   const BridgeClient = createBridgeClient({
-    socketAdress: `localhost:${process.env.NEXT_PUBLIC_SERVER_PORT}`,
+    socketAdress: `${process.env.NEXT_PUBLIC_Server_ADDRESS}:${process.env.NEXT_PUBLIC_SERVER_PORT}`,
   });
   // const [BridgeClient, setBridgeClient] = useState<any>();
   const [matchURL, setmatchURL] = useState<string>("");
@@ -21,7 +21,6 @@ const Lobby = ({ urls }: { urls: URLS }) => {
   const createGame = async (protocoll: string) => {
     const url = serverURL;
     url.pathname = "serverIp";
-
     try {
       const { matchID } = await lobbyClient.createMatch("bridge", {
         numPlayers: 5,
