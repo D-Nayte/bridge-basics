@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import style from "../style/bidselection.module.css";
 
 const BidSelection = ({ playerID, G, moves }: BridgeProps) => {
-  const [selectedSuit, setSelectedSuit] = useState<string>("H");
+  const [selectedSuit, setSelectedSuit] = useState<string>("none");
   const [bidAmount, setBidAmount] = useState("");
 
   const handleBid = (e: any) => {
@@ -114,14 +114,17 @@ const BidSelection = ({ playerID, G, moves }: BridgeProps) => {
         <select
           name="bid-amount"
           id="bid-amount"
-          value={bidAmount}
+          value={bidAmount === "" ? "none" : bidAmount}
           onChange={(e) => setBidAmount(e.target.value)}>
-          {
+          <option value="none" disabled>
+            select suit
+          </option>
+          {selectedSuit !== "none" && (
             <AvailableBidOptions
               highestBid={G.highestBid}
               selectedSuit={selectedSuit}
             />
-          }
+          )}
         </select>
         <button type="submit">Bid</button>
       </form>
