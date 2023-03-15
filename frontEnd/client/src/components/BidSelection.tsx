@@ -87,18 +87,6 @@ const BidSelection = ({ playerID, G, moves }: BridgeProps) => {
           <span>♥</span>
         </label>
 
-        <label htmlFor="suit-club">
-          <input
-            type="radio"
-            id="suit-club"
-            name="suit"
-            value="C"
-            checked={selectedSuit === "C"}
-            onChange={() => setSelectedSuit("C")}
-          />
-          <span>♣</span>
-        </label>
-
         <label htmlFor="suit-diamond">
           <input
             type="radio"
@@ -109,6 +97,18 @@ const BidSelection = ({ playerID, G, moves }: BridgeProps) => {
             onChange={() => setSelectedSuit("D")}
           />
           <span>♦</span>
+        </label>
+
+        <label htmlFor="suit-club">
+          <input
+            type="radio"
+            id="suit-club"
+            name="suit"
+            value="C"
+            checked={selectedSuit === "C"}
+            onChange={() => setSelectedSuit("C")}
+          />
+          <span>♣</span>
         </label>
 
         <select

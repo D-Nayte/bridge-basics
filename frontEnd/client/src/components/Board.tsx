@@ -1,6 +1,8 @@
 import { BridgeProps, Card, Player } from "@/../../shared/src/interface";
 import { useEffect } from "react";
 import GamePhase from "./GamePhase";
+import Loading from "@shared/components/Loading";
+import style from "../style/board.module.css";
 
 const BridgeBoard = (props: BridgeProps) => {
   const { G, ctx, moves, playerID, matchData, events } = props;
@@ -13,7 +15,13 @@ const BridgeBoard = (props: BridgeProps) => {
   }, []);
 
   //like Lobby, before entering the real game
-  if (phases === "create") return <h1>Waiting for all players to Join...</h1>;
+  if (phases === "create")
+    return (
+      <div className={style.client_waiting_lobby}>
+        <h1>Waiting for players</h1>
+        <Loading />
+      </div>
+    );
 
   return (
     <main>
@@ -25,7 +33,8 @@ const BridgeBoard = (props: BridgeProps) => {
           right: "0px",
           padding: ".5rem",
         }}
-        onClick={() => moves.finishGame()}>
+        onClick={() => moves.finishGame()}
+      >
         Finish play Phase
       </button>
       <button
@@ -35,7 +44,8 @@ const BridgeBoard = (props: BridgeProps) => {
           left: "0px",
           padding: ".5rem",
         }}
-        onClick={() => moves.startNewRound()}>
+        onClick={() => moves.startNewRound()}
+      >
         start new Round
       </button>
     </main>
