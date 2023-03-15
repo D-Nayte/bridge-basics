@@ -111,14 +111,19 @@ const Demo = ({ urls }: { urls: URLS }) => {
     height: "100vh",
     display: "flex",
     gap: "2rem",
-    padding: "0 1rem",
+    padding: "0",
   };
 
   const displayStyle = {
-    height: "70vh",
+    position: "fixed",
+    width: "100vw",
+    height: "100vh",
     boxShadow: "3px 3px 20px 0 black",
     padding: "0",
     aspectRatio: "1.7/1",
+    scale: "0.75",
+    top: "-12.5%",
+    left: "-12.5%",
   };
   const clientStyle = {
     height: "48vh",
@@ -126,6 +131,12 @@ const Demo = ({ urls }: { urls: URLS }) => {
     padding: "0",
     aspectRatio: "9/16",
     margin: ".5rem",
+  };
+  const clients = {
+    position: "fixed",
+    bottom: "0",
+    width: "max-content",
+    right: "0",
   };
 
   return (
@@ -135,7 +146,7 @@ const Demo = ({ urls }: { urls: URLS }) => {
           <div style={container}>
             <iframe src={displayJoinURL} style={displayStyle}></iframe>
 
-            <div className="clients">
+            <div style={clients}>
               <iframe src={matchURL} style={clientStyle}></iframe>
               <iframe src={matchURL} style={clientStyle}></iframe>
               <iframe src={matchURL} style={clientStyle}></iframe>
