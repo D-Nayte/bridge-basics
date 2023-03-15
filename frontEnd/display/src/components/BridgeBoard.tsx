@@ -1,55 +1,48 @@
 import React from "react";
-import { BridgeProps, Card, PlayerCard, Trick } from "@interface";
+import { BridgeProps, Card, Player, PlayerCard, Trick } from "@interface";
+import Qrcode from "./Qrcode";
+import Link from "next/link";
+import PlayerProfile from "./PlayerProfile";
+import style from "../styles/bridgeboard.module.css";
+import Logic from "./Logic";
 
-const BridgeBoard = (props: BridgeProps) => {
-  const { G, ctx, plugins, matchData } = props;
+interface BridgeBoardProps extends BridgeProps {
+  matchID: string;
+  matchURL: string;
+}
+
+const BridgeBoard = (props: BridgeBoardProps) => {
+  const { G, ctx, plugins, matchData, matchURL } = props;
   console.log("props :>> ", props);
   return (
     <div>
-      <h1>BridgeBoard</h1>
-      <ul style={{ display: "flex" }}>
-        {G.players &&
-          G.players.map(
-            (player) =>
-              player && (
-                <li>
-                  <h2>NAME: {player.name}</h2>
-                  <p>PlayerID : {player.id}</p>
-                  <img src={player.data?.imageURL} width="50px" alt="" />
-                </li>
-              )
-          )}
-      </ul>
-      <p>Contract double: {G.contract?.double}</p>
-      <p>Contract redouble: {G.contract?.redouble}</p>
-      <p>Contract level: {G.contract?.level}</p>
-      <p>Contract suit: {G.contract?.suit}</p>
+      {matchURL !== "" && ctx.phase === "create" && (
+        <>
+          <h1>LOBBY</h1>
+          <Link href={`${matchURL}`} target="_blank">
+            <Qrcode matchURL={matchURL} />
+          </Link>
+        </>
+      )}
 
-      <h1>Played Cards</h1>
-      <ul>
-        {G.table.length > 0 &&
-          G.table.map((pCard: PlayerCard, index) => {
-            const { card } = pCard;
-            return (
-              <li key={index} style={{ border: "2px solid black" }}>
-                <img width="50px" src={card.image}></img>
-              </li>
-            );
-          })}
-      </ul>
-      <h1>Finished tricks</h1>
-      <ul>
-        {G.tricks.length > 0 &&
-          G.tricks.map((trick: Trick, index: number) => {
-            const { cards } = trick;
-            console.log("cards :>> ", cards);
-            return (
-              <li key={index} style={{ border: "2px solid black" }}>
-                <img width="50px" src={cards[0].card.image}></img>
-              </li>
-            );
-          })}
-      </ul>
+      <>
+        <div className={style.bridgeboard_container}>
+          <h1 style={{ position: "absolute" }}>
+            BridgeBoard -- PHASE: {ctx.phase.toUpperCase()}
+          </h1>
+          <ul>
+            {G.players &&
+              G.players.map(
+                (player: Player) =>
+                  player && <PlayerProfile {...props} player={player} />
+              )}
+          </ul>
+
+          <div className={style.bridgeboard_logic}>
+            <Logic {...props} />
+          </div>
+        </div>
+      </>
     </div>
   );
 };

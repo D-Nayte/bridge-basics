@@ -1,0 +1,45 @@
+.bridgeboard_container > ul:nth-of-type(1) {
+  padding: 1rem;
+  gap: 1rem;
+  grid-column: 1/4;
+  grid-row: 1/4;
+  display: grid;
+  align-items: center;
+  grid-template-areas:
+    ". playerN ."
+    "playerW . playerE"
+    ". playerS .";
+}
+
+.bridgeboard_container {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  grid-template-areas:
+    ". playerN ."
+    "playerW logic playerE"
+    ". playerS .";
+}
+
+.bridgeboard_logic {
+  width: 200px;
+  height: 200px;
+  grid-area: logic;
+}
+
+.bridgeboard_container ul li:nth-child(1) {
+  grid-area: playerN;
+  justify-self: center;
+}
+.bridgeboard_container ul li:nth-child(2) {
+  grid-area: playerE;
+  justify-self: end;
+}
+.bridgeboard_container ul li:nth-child(3) {
+  grid-area: playerS;
+  justify-self: center;
+}
+.bridgeboard_container ul li:nth-child(4) {
+  grid-area: playerW;
+  justify-self: start;
+}

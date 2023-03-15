@@ -1,4 +1,5 @@
 import "@shared/styles/global.css";
+import "../style/globalClient.css";
 import { useEffect, useState } from "react";
 import Layout from "@clientComponents/Layout";
 import type { AppProps } from "next/app";

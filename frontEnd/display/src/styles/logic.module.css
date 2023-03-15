@@ -1,0 +1,16 @@
+.logic_container_text {
+  position: absolute;
+  bottom: 10%;
+  left: 10%;
+}
+
+.logic_cards_ul ul {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.logic_cards_ul ul li img {
+  width: 8rem;
+}

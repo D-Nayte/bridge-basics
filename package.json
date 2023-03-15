@@ -5,8 +5,9 @@
   "scripts": {
     "dev_client": "cd frontEnd/client/ && npm run dev -- --port 3001",
     "dev_display": "cd frontEnd/display/ && npm run dev -- --port 3002",
+    "demo": "cd frontEnd/demo/ && npm run dev -- --port 3003",
     "dev_server": "cd server/ && npm run dev",
-    "dev": "concurrently --kill-others \"npm run dev_client\" \"npm run dev_display\" \"npm run dev_server\""
+    "dev": "concurrently --kill-others \"npm run dev_client\" \"npm run dev_display\" \"npm run dev_server\" \"npm run demo\""
   },
   "dependencies": {
     "@types/node": "18.14.6",
