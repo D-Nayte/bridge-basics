@@ -87,18 +87,6 @@ const BidSelection = ({ playerID, G, moves }: BridgeProps) => {
           <span>♥</span>
         </label>
 
-        <label htmlFor="suit-club">
-          <input
-            type="radio"
-            id="suit-club"
-            name="suit"
-            value="C"
-            checked={selectedSuit === "C"}
-            onChange={() => setSelectedSuit("C")}
-          />
-          <span>♣</span>
-        </label>
-
         <label htmlFor="suit-diamond">
           <input
             type="radio"
@@ -111,11 +99,24 @@ const BidSelection = ({ playerID, G, moves }: BridgeProps) => {
           <span>♦</span>
         </label>
 
+        <label htmlFor="suit-club">
+          <input
+            type="radio"
+            id="suit-club"
+            name="suit"
+            value="C"
+            checked={selectedSuit === "C"}
+            onChange={() => setSelectedSuit("C")}
+          />
+          <span>♣</span>
+        </label>
+
         <select
           name="bid-amount"
           id="bid-amount"
           value={bidAmount}
-          onChange={(e) => setBidAmount(e.target.value)}>
+          onChange={(e) => setBidAmount(e.target.value)}
+        >
           {
             <AvailableBidOptions
               highestBid={G.highestBid}
