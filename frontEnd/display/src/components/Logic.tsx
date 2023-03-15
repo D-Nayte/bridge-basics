@@ -1,6 +1,27 @@
 import React from "react";
-import { BridgeProps, Card, Player, PlayerCard, Trick } from "@interface";
+import { BridgeProps, Card, Player, PlayerCard, Suit, Trick } from "@interface";
 import style from "../styles/logic.module.css";
+import {
+  BsFillSuitHeartFill,
+  BsFillSuitDiamondFill,
+  BsFillSuitSpadeFill,
+  BsFillSuitClubFill,
+} from "react-icons/bs";
+import { AiOutlineStop } from "react-icons/ai";
+import { IconManifest } from "react-icons/lib/esm/iconsManifest";
+
+function getSuitSymbol(suit: Suit = "NT") {
+  const symbolList = {
+    H: <BsFillSuitHeartFill />,
+    D: <BsFillSuitDiamondFill />,
+    C: <BsFillSuitClubFill />,
+    S: <BsFillSuitSpadeFill />,
+    NT: <AiOutlineStop />,
+  };
+
+  return symbolList[suit];
+}
+console.log("getSuitSymbol ", getSuitSymbol("H"));
 
 const Logic = (props: BridgeProps) => {
   const { G, ctx, plugins, matchData } = props;
@@ -13,7 +34,18 @@ const Logic = (props: BridgeProps) => {
         <p>Contract level: {G.contract?.level}</p>
         <p>Contract suit: {G.contract?.suit}</p>
       </div>
-      <p></p>
+      {G.contract?.suit && (
+        <h2
+          style={{
+            color:
+              G.contract?.suit === "H" || G.contract?.suit === "D"
+                ? "var(--red)"
+                : "black",
+          }}
+        >
+          {G.contract?.level} {getSuitSymbol(G.contract.suit)}
+        </h2>
+      )}
       <div className={style.logic_cards_ul}>
         <h1>Played Cards</h1>
         <ul>

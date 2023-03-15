@@ -10,14 +10,16 @@ interface GamePhaseProps extends BridgeProps {
 }
 
 const GamePhase = (props: GamePhaseProps) => {
-  const { moves, player, playerID, ctx } = props;
+  const { G, moves, player, playerID, ctx } = props;
   const handlePlayCard = (card: Card) => {
     moves.playCard(card);
   };
 
   //logic for sorting the cards in the hand of each player
+
   const sortCards = (cards: Card[]) => {
-    const sortByRank = cards.sort((aCard, bCard) => {
+    const unSortedCards = [...cards];
+    const sortByRank = unSortedCards.sort((aCard, bCard) => {
       return aCard.rank - bCard.rank;
     });
     const sortByColor = sortByRank.sort((aCard, bCard) => {
@@ -36,6 +38,7 @@ const GamePhase = (props: GamePhaseProps) => {
       }}
     >
       <h1 className={bidStyle.temp_text}>{player?.name}</h1>
+      <p>{G.contract?.level}</p>
 
       {player && (
         <ul className={bidStyle.gamephase_cards}>
@@ -44,11 +47,6 @@ const GamePhase = (props: GamePhaseProps) => {
               <img src={card.image}></img>
             </li>
           ))}
-          {/*{player.hand.map((card, index) => (
-            <li key={index} onClick={() => handlePlayCard(card)}>
-              <img src={card.image}></img>
-            </li>
-          ))}*/}
         </ul>
       )}
       {ctx.phase === "bid" && (

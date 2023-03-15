@@ -22,8 +22,11 @@ export interface MatchData {
   matchID: string;
 }
 
+export type Suit = "H" | "D" | "C" | "S" | "NT";
+
+
 export interface Bid {
-  suit: string;
+  suit: Suit;
   level: string;
   double?: null | boolean;
   redouble?: null | boolean;
@@ -70,6 +73,7 @@ export interface PlayerCard {
 
 export interface Contract extends Bid {
   playerID: string;
+
 }
 
 //G
