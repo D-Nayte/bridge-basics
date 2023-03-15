@@ -18,6 +18,8 @@ const GamePhase = ({ moves, player, playerID, ctx }: GamePhaseProps) => {
   return (
     <div className={bidStyle.wrapper}>
       <h1 className={bidStyle.temp_text}>{player?.name}</h1>
+      {/*<p>{(ctx.currentPlayer = player?.id && <p>Your turn</p>)}</p>*/}
+      {console.log("ctx.currentPlayer", ctx.currentPlayer)}
       {player && (
         <ul className={bidStyle.gamephase_cards}>
           {player.hand.map((card, index) => (

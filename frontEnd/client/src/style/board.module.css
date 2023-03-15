@@ -1,0 +1,10 @@
+.client_waiting_lobby {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.client_waiting_lobby h1 {
+  padding-bottom: 2rem;
+}
