@@ -15,6 +15,7 @@ import {
   DeckPoints,
   Player,
   PlayerCard,
+  Suit,
   Trick,
   Vulnerability,
 } from "../interface/index";
@@ -81,17 +82,11 @@ const players = [
 
 const bid: Move<BridgeState> = (
   { G, ctx },
-  { bidLevel, bidSuit }: { bidLevel: string; bidSuit: string }
+  { bidLevel, bidSuit }: { bidLevel: string; bidSuit: Suit }
 ) => {
   const playerIndex = parseInt(ctx.currentPlayer);
   const player = G.players[playerIndex];
 
-  // const prevBid = G.madeBids.find(
-  //   (bid: Bid) =>
-  //     (bid.level === bidLevel && bid.suit === bidSuit) ||
-  //     (bid.suit === bidSuit && bid.level && bid.level >= bidLevel)
-  // );
-  // if (prevBid) return INVALID_MOVE;
   if (G.highestBid) {
     const { level, suit } = G.highestBid;
     const currLevel: number = parseInt(bidLevel);
@@ -243,15 +238,12 @@ const startNewRound: Move<BridgeState> = ({ G, events }) => {
   G.contract = null;
   G.dealt = false;
   G.table = [];
+  G.vulnerabilitySetup.index =
+    G.vulnerabilitySetup.index >= 3
+      ? (G.vulnerabilitySetup.index = 0)
+      : G.vulnerabilitySetup.index++;
 
   G.players = G.players.map((player: Player): Player => {
-    // const bid = {
-    //   suit: null,
-    //   level: null,
-    //   double: null,
-    //   redouble: null,
-    // };
-
     return { ...player, hand: [], passed: false, bid: null };
   });
 
