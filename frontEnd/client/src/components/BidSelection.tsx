@@ -1,8 +1,11 @@
+import { Bid, BridgeProps, Player } from "@interface";
+import { suitOrder } from "@shared/lib/deck";
+import { parse } from "path";
 import React, { useState } from "react";
 import style from "../style/bidselection.module.css";
 
-const BidSelection = ({ moves, playerID }: { moves: any; playerID: any }) => {
-  const [selectedSuit, setSelectedSuit] = useState("H");
+const BidSelection = ({ playerID, G, moves }: BridgeProps) => {
+  const [selectedSuit, setSelectedSuit] = useState<string>("H");
   const [bidAmount, setBidAmount] = useState("");
 
   const handleBid = (e: any) => {
@@ -13,19 +16,51 @@ const BidSelection = ({ moves, playerID }: { moves: any; playerID: any }) => {
     }
   };
 
+  const AvailableBidOptions = ({
+    highestBid,
+    selectedSuit,
+  }: {
+    highestBid: Bid | null;
+    selectedSuit: string;
+  }) => {
+    let startIndex = 1;
+    const currSuitLevel = suitOrder.indexOf(selectedSuit);
+    let highestSuit = -1;
+    const options = [];
+
+    if (highestBid) {
+      highestSuit = suitOrder.indexOf(highestBid?.suit);
+
+      //if color level is less then the actuall one, increase available options by 1
+      if (currSuitLevel <= highestSuit) {
+        startIndex = parseInt(highestBid.level) + 1;
+      } else {
+        startIndex = parseInt(highestBid.level);
+      }
+    }
+    for (let index = startIndex; index <= 7; index++) {
+      options.push(
+        <option value={index}>
+          {selectedSuit} {index}
+        </option>
+      );
+    }
+    return <>{options}</>;
+  };
+
   return (
     <div className={style.form_container}>
       <form onSubmit={handleBid}>
-        <label htmlFor="suit-heart">
+        <label htmlFor="suit-nt">
           <input
             type="radio"
-            id="suit-heart"
+            id="suit-nt"
             name="suit"
-            value="H"
-            checked={selectedSuit === "H"}
-            onChange={() => setSelectedSuit("H")}
+            value="NT"
+            checked={selectedSuit === "NT"}
+            onChange={() => setSelectedSuit("NT")}
           />
-          <span>♥</span>
+          <span>NT</span>
         </label>
 
         <label htmlFor="suit-spade">
@@ -38,6 +73,18 @@ const BidSelection = ({ moves, playerID }: { moves: any; playerID: any }) => {
             onChange={() => setSelectedSuit("S")}
           />
           <span>♠</span>
+        </label>
+
+        <label htmlFor="suit-heart">
+          <input
+            type="radio"
+            id="suit-heart"
+            name="suit"
+            value="H"
+            checked={selectedSuit === "H"}
+            onChange={() => setSelectedSuit("H")}
+          />
+          <span>♥</span>
         </label>
 
         <label htmlFor="suit-club">
@@ -64,31 +111,17 @@ const BidSelection = ({ moves, playerID }: { moves: any; playerID: any }) => {
           <span>♦</span>
         </label>
 
-        <label htmlFor="suit-nt">
-          <input
-            type="radio"
-            id="suit-nt"
-            name="suit"
-            value="NT"
-            checked={selectedSuit === "NT"}
-            onChange={() => setSelectedSuit("NT")}
-          />
-          <span>NT</span>
-        </label>
-
         <select
           name="bid-amount"
           id="bid-amount"
           value={bidAmount}
-          onChange={(e) => setBidAmount(e.target.value)}
-        >
-          <option value="1">{selectedSuit} 1</option>
-          <option value="2">{selectedSuit} 2</option>
-          <option value="3">{selectedSuit} 3</option>
-          <option value="4">{selectedSuit} 4</option>
-          <option value="5">{selectedSuit} 5</option>
-          <option value="6">{selectedSuit} 6</option>
-          <option value="7">{selectedSuit} 7</option>
+          onChange={(e) => setBidAmount(e.target.value)}>
+          {
+            <AvailableBidOptions
+              highestBid={G.highestBid}
+              selectedSuit={selectedSuit}
+            />
+          }
         </select>
         <button type="submit">Bid</button>
       </form>

@@ -1,5 +1,7 @@
 import { Card } from "../interface/index";
 
+export const suitOrder: string[] = ["C", "D", "H", "S", "NT"];
+
 const createCard = (suit: string, rank: string) => {
   return {
     name: rank + suit,
