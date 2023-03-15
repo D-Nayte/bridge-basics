@@ -1,3 +1,4 @@
+import { getURLs } from "@shared/utils/urls";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import createBridgeClient from "../../components/BridgeClient";
@@ -10,7 +11,7 @@ const Index = () => {
     playerID: string;
   } | null>(null);
   const BrideClient = createBridgeClient({
-    socketAdress: `localhost:${process.env.NEXT_PUBLIC_SERVER_PORT}`,
+    socketAdress: `${process.env.NEXT_PUBLIC_Server_ADDRESS}:${process.env.NEXT_PUBLIC_SERVER_PORT}`,
   });
 
   useEffect(() => {

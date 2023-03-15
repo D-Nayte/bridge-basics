@@ -20,13 +20,7 @@ const server = Server({
 });
 
 server.router.post("/serverIp", (ctx, next) => {
-  console.log("serverIp2 :>> ", serverIp);
   ctx.body = { serverIp: serverIp };
 });
 
 server.run(port);
-
-// ["http://1.1.1.1:1",
-//   "http://192.168.1.22:3001",]
-// ["http://192.168.178.20:3001",
-//   "http://192.168.1.22:3001",]

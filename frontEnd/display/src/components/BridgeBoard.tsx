@@ -19,7 +19,10 @@ const BridgeBoard = (props: BridgeBoardProps) => {
       {matchURL !== "" && ctx.phase === "create" && (
         <>
           <h1>LOBBY</h1>
-          <Link href={`${matchURL}`} target="_blank">
+          <Link
+            href={`${matchURL}`}
+            target="_blank"
+            style={{ padding: "10rem" }}>
             <Qrcode matchURL={matchURL} />
           </Link>
         </>

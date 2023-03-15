@@ -73,7 +73,7 @@ const Lobby = ({ urls }: { urls: URLS }) => {
     lobbyURL.searchParams.set("matchID", matchID);
     setmatchURL(lobbyURL.href);
     const BrideClient = createBridgeClient({
-      socketAdress: `localhost:${process.env.NEXT_PUBLIC_SERVER_PORT}`,
+      socketAdress: `${process.env.NEXT_PUBLIC_Server_ADDRESS}:${process.env.NEXT_PUBLIC_SERVER_PORT}`,
     });
     setBridgeClient((prev: any) => (prev = BrideClient));
   };
