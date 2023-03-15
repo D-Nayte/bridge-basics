@@ -1,4 +1,5 @@
 .playerprofile_container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6,6 +7,17 @@
   background-color: var(--white);
   width: 16rem;
   height: 30rem;
+}
+
+.danger:after {
+  content: "Danger";
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 0, 0, 0.733);
+  z-index: 2;
+  border-radius: var(--default-border-radius);
+  padding: 0.5rem;
 }
 
 .playerprofile_container img {

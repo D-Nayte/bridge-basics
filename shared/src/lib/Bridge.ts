@@ -241,12 +241,11 @@ const startNewRound: Move<BridgeState> = ({ G, events }) => {
   G.vulnerabilitySetup.index =
     G.vulnerabilitySetup.index >= 3
       ? (G.vulnerabilitySetup.index = 0)
-      : G.vulnerabilitySetup.index++;
+      : (G.vulnerabilitySetup.index = G.vulnerabilitySetup.index + 1);
 
   G.players = G.players.map((player: Player): Player => {
     return { ...player, hand: [], passed: false, bid: null };
   });
-
   events.setPhase("build");
 };
 
@@ -262,7 +261,10 @@ export const Bridge: Game<BridgeState> = {
       players: [],
       dealt: false,
       turnOrder: ["0", "1", "2", "3"],
-      vulnerabilitySetup: { index: 0, order: ["none", "N/S", "E/W", "all"] },
+      vulnerabilitySetup: {
+        index: 0,
+        order: [[], [0, 2], [1, 3], [0, 1, 2, 3]], // none, N/S, E/W, all
+      },
       table: [],
     };
   },
@@ -421,11 +423,10 @@ export const Bridge: Game<BridgeState> = {
 
           // checks wich team is in danger, based on vulnerabilitySetup index and order
           const { vulnerabilitySetup } = G;
-          const vulnerabilityKey: string =
-            vulnerabilitySetup.order[vulnerabilitySetup.index];
-          const isVulnerable: boolean = vulnerability[
-            vulnerabilityKey
-          ].includes(parseInt(playerID));
+          const { index, order } = vulnerabilitySetup;
+          const isVulnerable: boolean = order[index].some(
+            (number) => number === parseInt(playerID)
+          );
 
           let bonusKey: string | null = null;
           let scores = 0;

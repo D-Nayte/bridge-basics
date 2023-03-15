@@ -1,5 +1,12 @@
 import React from "react";
-import { BridgeProps, Card, Player, PlayerCard, Trick } from "@interface";
+import {
+  BridgeProps,
+  BridgeState,
+  Card,
+  Player,
+  PlayerCard,
+  Trick,
+} from "@interface";
 import style from "../styles/playerprofile.module.css";
 
 interface PlayerProfile extends BridgeProps {
@@ -7,8 +14,18 @@ interface PlayerProfile extends BridgeProps {
 }
 
 const PlayerProfile = (props: PlayerProfile) => {
-  const { player, ctx, matchData, G } = props;
+  const { player, ctx, matchData, G, playerID } = props;
 
+  const chechIfInDanger = (G: BridgeState, player: Player) => {
+    if (!player?.id && typeof player?.id !== "number")
+      return console.error("Failed to get danger state, no player id ");
+    const playerID = player.id;
+
+    const { index, order } = G.vulnerabilitySetup;
+    return order[index].some((number) => number === playerID);
+  };
+
+  const danger = chechIfInDanger(G, player);
   const isDisconnected: boolean = matchData
     ? !matchData[player.id].isConnected
     : true;
@@ -19,7 +36,12 @@ const PlayerProfile = (props: PlayerProfile) => {
     ctx.phase !== "build";
   return (
     <>
-      <li className={style.playerprofile_container}>
+      <li
+        className={
+          danger
+            ? `${style.playerprofile_container} ${style.danger}`
+            : `${style.playerprofile_container}`
+        }>
         <img
           src={player.data?.imageURL}
           className={currentPlayerTurn ? style.playerprofile_active : undefined}
