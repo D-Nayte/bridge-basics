@@ -5,7 +5,7 @@ import {
   INVALID_MOVE,
   TurnOrder,
 } from "../../../node_modules/boardgame.io/core";
-import createDeck from "./deck";
+import createDeck, { suitOrder } from "./deck";
 import {
   Bid,
   BridgeParams,
@@ -15,13 +15,10 @@ import {
   DeckPoints,
   Player,
   PlayerCard,
-  RawPlayer,
   Trick,
   Vulnerability,
 } from "../interface/index";
 import type { Game, Move, Ctx, FnContext } from "boardgame.io";
-import { table } from "console";
-import { parse } from "path";
 
 const dealToPlayer = ({ G }: { G: BridgeState }) => {
   const deck: Card[] = G.deck;
@@ -89,21 +86,32 @@ const bid: Move<BridgeState> = (
   const playerIndex = parseInt(ctx.currentPlayer);
   const player = G.players[playerIndex];
 
-  const prevBid = G.madeBids.find(
-    (bid: Bid) =>
-      (bid.level === bidLevel && bid.suit === bidSuit) ||
-      (bid.suit === bidSuit && bid.level && bid.level >= bidLevel)
-  );
-  if (prevBid) return INVALID_MOVE;
+  // const prevBid = G.madeBids.find(
+  //   (bid: Bid) =>
+  //     (bid.level === bidLevel && bid.suit === bidSuit) ||
+  //     (bid.suit === bidSuit && bid.level && bid.level >= bidLevel)
+  // );
+  // if (prevBid) return INVALID_MOVE;
+  if (G.highestBid) {
+    const { level, suit } = G.highestBid;
+    const currLevel: number = parseInt(bidLevel);
+    const currSuitLevel: number = suitOrder.indexOf(bidSuit);
+    const highestSuitLevel: number = suitOrder.indexOf(suit);
 
-  player.bid.level = bidLevel;
-  player.bid.suit = bidSuit;
+    if (
+      currLevel < parseInt(level) ||
+      (currLevel === parseInt(level) && currSuitLevel <= highestSuitLevel)
+    )
+      return INVALID_MOVE;
+  }
+
+  player.bid = { level: bidLevel, suit: bidSuit };
   player.passed = false;
 
   if (player.bid.suit !== bidSuit)
     (player.bid.double = false), (player.bid.redouble = false);
 
-  G.madeBids.push({ level: bidLevel, suit: bidSuit });
+  G.highestBid = { level: bidLevel, suit: bidSuit };
 };
 
 const playerpassed: Move<BridgeState> = ({ G, playerID }) => {
@@ -161,7 +169,7 @@ const double: Move<BridgeState> = ({ G, ctx }) => {
 
   const previousPlayer = G.players[previousPlayerIndex];
 
-  if (previousPlayer.bid.suit && previousPlayer.bid.level) {
+  if (previousPlayer.bid?.suit && previousPlayer.bid.level) {
     previousPlayer.bid.double = true;
     return;
   }
@@ -176,7 +184,7 @@ const reDouble: Move<BridgeState> = ({ G, ctx }) => {
   if (partnerIndex < 0) partnerIndex = G.players.length - 2;
 
   const partner = G.players[partnerIndex];
-  if (partner.bid.double) {
+  if (partner.bid?.double) {
     partner.bid.redouble = true;
     return;
   }
@@ -231,20 +239,20 @@ const finishGame: Move<BridgeState> = ({ G, ctx }) => {
 const startNewRound: Move<BridgeState> = ({ G, events }) => {
   G.tricks = [];
   G.deck = createDeck();
-  G.madeBids = [];
+  G.highestBid = null;
   G.contract = null;
   G.dealt = false;
   G.table = [];
 
   G.players = G.players.map((player: Player): Player => {
-    const bid = {
-      suit: null,
-      level: null,
-      double: null,
-      redouble: null,
-    };
+    // const bid = {
+    //   suit: null,
+    //   level: null,
+    //   double: null,
+    //   redouble: null,
+    // };
 
-    return { ...player, hand: [], passed: false, bid };
+    return { ...player, hand: [], passed: false, bid: null };
   });
 
   events.setPhase("build");
@@ -256,13 +264,13 @@ export const Bridge: Game<BridgeState> = {
     return {
       deck: createDeck(),
       tricks: [],
-      madeBids: [],
+      highestBid: null,
       trickIndex: -1,
       contract: null,
       players: [],
       dealt: false,
       turnOrder: ["0", "1", "2", "3"],
-      vulnerabilitySetup: { index: 0, order: ["none", "N/S", "O/W", "all"] },
+      vulnerabilitySetup: { index: 0, order: ["none", "N/S", "E/W", "all"] },
       table: [],
     };
   },
@@ -315,7 +323,7 @@ export const Bridge: Game<BridgeState> = {
               (player: Player) => !player.passed
             );
             // setup contrat and use wonplayerID as strart index for turn order for the actuall game
-            wonPlayer
+            wonPlayer?.bid
               ? (G.contract = {
                   ...wonPlayer.bid,
                   playerID: wonPlayer.id.toString(),

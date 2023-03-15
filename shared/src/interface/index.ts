@@ -23,8 +23,8 @@ export interface MatchData {
 }
 
 export interface Bid {
-  suit: null | string;
-  level: null | string;
+  suit: string;
+  level: string;
   double?: null | boolean;
   redouble?: null | boolean;
 }
@@ -55,7 +55,7 @@ export interface Vulnerability {
 export interface Player extends RawPlayer {
   hand: Card[];
   passed: boolean;
-  bid: Bid;
+  bid: Bid | null;
   scores: number;
 }
 
@@ -76,7 +76,7 @@ export interface Contract extends Bid {
 export interface BridgeState {
   deck: Card[];
   tricks: Trick[];
-  madeBids: Bid[];
+  highestBid: Bid | null;
   trickIndex: number;
   contract: null | Contract;
   players: Player[];

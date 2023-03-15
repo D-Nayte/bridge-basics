@@ -8,9 +8,8 @@ interface GamePhaseProps extends BridgeProps {
   player: Player | null;
 }
 
-const GamePhase = ({ moves, player, playerID, ctx }: GamePhaseProps) => {
-  console.log("player :>> ", player);
-
+const GamePhase = (props: GamePhaseProps) => {
+  const { moves, player, playerID, ctx } = props;
   const handlePlayCard = (card: Card) => {
     moves.playCard(card);
   };
@@ -29,7 +28,7 @@ const GamePhase = ({ moves, player, playerID, ctx }: GamePhaseProps) => {
       )}
       {ctx.phase === "bid" && (
         <div>
-          <BidSelection moves={moves} playerID={playerID} />
+          <BidSelection {...props} />
 
           <ul className={bidStyle.buttons_wrapper}>
             <BidButtons moves={moves} />
