@@ -38,7 +38,6 @@ const GamePhase = (props: GamePhaseProps) => {
       }}
     >
       <h1 className={bidStyle.temp_text}>{player?.name}</h1>
-      <p>{G.contract?.level}</p>
 
       {player && (
         <ul className={bidStyle.gamephase_cards}>
