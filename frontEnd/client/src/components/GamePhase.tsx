@@ -39,6 +39,15 @@ const GamePhase = (props: GamePhaseProps) => {
     >
       <h1 className={bidStyle.temp_text}>{player?.name}</h1>
 
+      {ctx.phase === "bid" && (
+        <div className={bidStyle.bidselection_wrapper}>
+          <BidSelection {...props} />
+
+          <ul className={bidStyle.buttons_wrapper}>
+            <BidButtons moves={moves} />
+          </ul>
+        </div>
+      )}
       {player && (
         <ul className={bidStyle.gamephase_cards}>
           {sortCards(player.hand).map((card, index) => (
@@ -47,15 +56,6 @@ const GamePhase = (props: GamePhaseProps) => {
             </li>
           ))}
         </ul>
-      )}
-      {ctx.phase === "bid" && (
-        <div>
-          <BidSelection {...props} />
-
-          <ul className={bidStyle.buttons_wrapper}>
-            <BidButtons moves={moves} />
-          </ul>
-        </div>
       )}
     </div>
   );

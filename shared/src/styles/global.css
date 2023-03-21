@@ -10,6 +10,7 @@
   --default-padding: 1rem;
   --default-margin: 1rem;
   --default-border-radius: 1rem;
+  --card-ratio: 1/1.4;
 }
 * {
   margin: 0;
@@ -45,33 +46,6 @@ ul {
 }
 a {
   text-decoration: none;
-}
-button {
-  align-items: center;
-  appearance: button;
-  background: var(--background-color);
-  border-radius: var(--default-border-radius);
-  border-style: none;
-  box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
-  color: var(--white);
-  cursor: pointer;
-  display: flex;
-  padding: var(--default-padding) calc(var(--default-padding) * 2);
-  text-align: center;
-  text-transform: none;
-  transition: color 0.13s ease-in-out, background 0.13s ease-in-out,
-    opacity 0.13s ease-in-out, box-shadow 0.13s ease-in-out;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-}
-
-button:active {
-  background-color: var(--red);
-}
-
-button:hover {
-  background: var(--green);
 }
 
 /* BEM naming convention eg: parent-element__objectwithin-specifics

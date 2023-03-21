@@ -13,16 +13,25 @@
 }
 .buttons_wrapper {
   display: flex;
-  gap: 0.5rem;
+  cursor: pointer;
+  height: 4rem;
+  width: 100%;
 }
 .gamephase_cards {
   display: flex;
-  width: 90%;
+  width: 100%;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.3rem;
 }
 .gamephase_cards li img {
-  width: 4rem;
+  width: 4.4rem;
+}
+.bidselection_wrapper {
+  width: 100vw;
+
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
