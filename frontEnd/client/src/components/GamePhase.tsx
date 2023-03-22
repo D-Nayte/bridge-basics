@@ -4,6 +4,7 @@ import bidStyle from "../style/bidPhase.module.css";
 import BidButtons from "./BidButtons";
 import BidSelection from "./BidSelection";
 import { suitOrder } from "@shared/lib/deck";
+import ErrorMessage from "./ErrorMessage";
 
 interface GamePhaseProps extends BridgeProps {
   player: Player | null;
@@ -37,16 +38,18 @@ const GamePhase = (props: GamePhaseProps) => {
         background: ctx.currentPlayer === playerID ? "var(--green)" : "none",
       }}
     >
+      <ErrorMessage message={"you can't do this shit"} />
       <h1 className={bidStyle.temp_text}>{player?.name}</h1>
 
       {ctx.phase === "bid" && (
-        <div className={bidStyle.bidselection_wrapper}>
-          <BidSelection {...props} />
-
+        <>
+          <div className={bidStyle.bidselection_wrapper}>
+            <BidSelection {...props} />
+          </div>
           <ul className={bidStyle.buttons_wrapper}>
             <BidButtons moves={moves} />
           </ul>
-        </div>
+        </>
       )}
       {player && (
         <ul className={bidStyle.gamephase_cards}>

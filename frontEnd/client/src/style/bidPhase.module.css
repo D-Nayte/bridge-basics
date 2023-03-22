@@ -13,9 +13,8 @@
 }
 .buttons_wrapper {
   display: flex;
-  cursor: pointer;
-  height: 4rem;
-  width: 100%;
+  justify-content: space-between;
+  align-items: center;
 }
 .gamephase_cards {
   display: flex;

@@ -17,8 +17,12 @@ const BidButtons = ({ moves }: { moves: any }) => {
 
   return (
     <>
-      <li>
-        <button form="my-form" type="submit">
+      <li className={style.bidbuttons}>
+        <button
+          className={style.bidbuttons_button}
+          form="my-form"
+          type="submit"
+        >
           Bid
         </button>
       </li>

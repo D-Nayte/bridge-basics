@@ -100,84 +100,89 @@ const BidSelection = ({ playerID, G, moves }: BridgeProps) => {
   }, [selectedSuit]);
 
   return (
-    <div
-      className={style.bidselection_container}
-      style={{
-        transform: !selectedSlider ? "translateX(0)" : "translateX(-50%)",
-      }}
-    >
-      <form id="my-form" onSubmit={handleBid} className={style.form_container}>
-        <label htmlFor="suit-nt">
-          <input
-            type="radio"
-            id="suit-nt"
-            name="suit"
-            value="NT"
-            checked={selectedSuit === "NT"}
-            onChange={() => {
-              setSelectedSuit("NT");
-            }}
-          />
-          <span>{showIcon("NT")}</span>
-        </label>
+    <>
+      <div
+        className={style.bidselection_container}
+        style={{
+          transform: !selectedSlider ? "translateX(0)" : "translateX(-50%)",
+        }}
+      >
+        <form
+          id="my-form"
+          onSubmit={handleBid}
+          className={style.form_container}
+        >
+          <label htmlFor="suit-nt">
+            <input
+              type="radio"
+              id="suit-nt"
+              name="suit"
+              value="NT"
+              checked={selectedSuit === "NT"}
+              onChange={() => {
+                setSelectedSuit("NT");
+              }}
+            />
+            <span>{showIcon("NT")}</span>
+          </label>
 
-        <label htmlFor="suit-spade">
-          <input
-            type="radio"
-            id="suit-spade"
-            name="suit"
-            value="S"
-            checked={selectedSuit === "S"}
-            onChange={() => {
-              setSelectedSuit("S");
-            }}
-          />
-          <span>{showIcon("S")}</span>
-        </label>
+          <label htmlFor="suit-spade">
+            <input
+              type="radio"
+              id="suit-spade"
+              name="suit"
+              value="S"
+              checked={selectedSuit === "S"}
+              onChange={() => {
+                setSelectedSuit("S");
+              }}
+            />
+            <span>{showIcon("S")}</span>
+          </label>
 
-        <label htmlFor="suit-heart">
-          <input
-            type="radio"
-            id="suit-heart"
-            name="suit"
-            value="H"
-            checked={selectedSuit === "H"}
-            onChange={() => {
-              setSelectedSuit("H");
-            }}
-          />
-          <span>{showIcon("H")}</span>
-        </label>
+          <label htmlFor="suit-heart">
+            <input
+              type="radio"
+              id="suit-heart"
+              name="suit"
+              value="H"
+              checked={selectedSuit === "H"}
+              onChange={() => {
+                setSelectedSuit("H");
+              }}
+            />
+            <span>{showIcon("H")}</span>
+          </label>
 
-        <label htmlFor="suit-diamond">
-          <input
-            type="radio"
-            id="suit-diamond"
-            name="suit"
-            value="D"
-            checked={selectedSuit === "D"}
-            onChange={() => {
-              setSelectedSuit("D");
-            }}
-          />
-          <span>{showIcon("D")}</span>
-        </label>
+          <label htmlFor="suit-diamond">
+            <input
+              type="radio"
+              id="suit-diamond"
+              name="suit"
+              value="D"
+              checked={selectedSuit === "D"}
+              onChange={() => {
+                setSelectedSuit("D");
+              }}
+            />
+            <span>{showIcon("D")}</span>
+          </label>
 
-        <label htmlFor="suit-club">
-          <input
-            type="radio"
-            id="suit-club"
-            name="suit"
-            value="C"
-            checked={selectedSuit === "C"}
-            onChange={() => {
-              setSelectedSuit("C");
-            }}
-          />
-          <span>{showIcon("C")}</span>
-        </label>
+          <label htmlFor="suit-club">
+            <input
+              type="radio"
+              id="suit-club"
+              name="suit"
+              value="C"
+              checked={selectedSuit === "C"}
+              onChange={() => {
+                setSelectedSuit("C");
+              }}
+            />
+            <span>{showIcon("C")}</span>
+          </label>
 
-        {/*<select
+          {/*<select
         name="bid-amount"
         id="bid-amount"
         value={bidAmount === "" ? "none" : bidAmount}
@@ -193,26 +198,25 @@ const BidSelection = ({ playerID, G, moves }: BridgeProps) => {
           />
         )}
         </select>*/}
-      </form>
+        </form>
 
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <AvailableBidOptions
-          highestBid={G.highestBid}
-          selectedSuit={selectedSuit}
-        />
-        <div>
-          <ul className={bidStyle.buttons_wrapper}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <AvailableBidOptions
+            highestBid={G.highestBid}
+            selectedSuit={selectedSuit}
+          />
+
+          <div>
             <button
               className={style.bidselection_back_button}
               onClick={() => setSelectedSlider(false)}
             >
               <BiLeftArrowCircle />
             </button>
-            {selectedSuit && bidAmount !== "" && <BidButtons moves={moves} />}
-          </ul>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

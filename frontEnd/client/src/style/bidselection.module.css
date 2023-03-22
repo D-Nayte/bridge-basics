@@ -94,8 +94,6 @@
   flex-grow: 1;
   flex-basis: calc(14.2% - 0.5rem);
   justify-content: space-between;
-  margin: 0.25rem;
-
   background-color: #f0f0f04f;
   color: black;
   border: none;
