@@ -1,10 +1,11 @@
 import { BridgeProps, Card, Player } from "@interface";
 import React from "react";
 import bidStyle from "../style/bidPhase.module.css";
-import BidButtons from "./BidButtons";
+import BidButtons2 from "./BidButtons2";
 import BidSelection from "./BidSelection";
 import { suitOrder } from "@shared/lib/deck";
 import ErrorMessage from "./ErrorMessage";
+import BidCarousel from "./BidCarousel";
 
 interface GamePhaseProps extends BridgeProps {
   player: Player | null;
@@ -34,23 +35,13 @@ const GamePhase = (props: GamePhaseProps) => {
   return (
     <div
       className={bidStyle.wrapper}
-      style={{
-        background: ctx.currentPlayer === playerID ? "var(--green)" : "none",
-      }}
+      /*style={{
+        border: ctx.currentPlayer === playerID ? "5px solid white" : "none",
+      }}*/
     >
       <ErrorMessage message={"you can't do this shit"} />
       <h1 className={bidStyle.temp_text}>{player?.name}</h1>
 
-      {ctx.phase === "bid" && (
-        <>
-          <div className={bidStyle.bidselection_wrapper}>
-            <BidSelection {...props} />
-          </div>
-          <ul className={bidStyle.buttons_wrapper}>
-            <BidButtons moves={moves} />
-          </ul>
-        </>
-      )}
       {player && (
         <ul className={bidStyle.gamephase_cards}>
           {sortCards(player.hand).map((card, index) => (
@@ -59,6 +50,22 @@ const GamePhase = (props: GamePhaseProps) => {
             </li>
           ))}
         </ul>
+      )}
+      {ctx.phase === "bid" && (
+        <>
+          <BidCarousel />
+          <ul className={bidStyle.buttons_wrapper}>
+            <BidButtons2 moves={moves} />
+          </ul>
+          {/*<>
+          <div className={bidStyle.bidselection_wrapper}>
+            <BidSelection {...props} />
+          </div>
+          <ul className={bidStyle.buttons_wrapper}>
+            <BidButtons moves={moves} />
+          </ul>
+      </>*/}
+        </>
       )}
     </div>
   );

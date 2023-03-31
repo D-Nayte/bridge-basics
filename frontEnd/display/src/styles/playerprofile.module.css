@@ -25,7 +25,11 @@
   aspect-ratio: 1/1;
 }
 .playerprofile_container .playerprofile_active {
-  background: var(--green);
+  background: radial-gradient(
+    circle,
+    rgba(11, 114, 59, 1) 0%,
+    rgba(26, 57, 41, 1) 100%
+  );
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
 }
