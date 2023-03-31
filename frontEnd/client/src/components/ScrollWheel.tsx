@@ -17,9 +17,10 @@ const ScrollWheel = ({ data, width, height, className }: WheelProps) => {
   const items = useRef("");
   const animTime = 250;
   const [highlight, sethighlight] = useState({
-    scale: "1.1",
-    fontSize: "1.3em",
-    fontWeight: "bolder",
+    //scale: "1.1",
+    //fontSize: "1.3em",
+    //fontWeight: "800",
+    color: "var(--text-color-dark)",
   });
   const [animTimeout, setanimTimeout] = useState(null);
   const handleMove = (e) => {
@@ -49,11 +50,15 @@ const ScrollWheel = ({ data, width, height, className }: WheelProps) => {
 
     if (direction === "up") {
       setscrollDirection("up");
-      sethighlight((prev) => ({ scale: "1", fontSize: "1em" }));
+      sethighlight((prev) => ({
+        /*scale: "1", fontSize: "1em"*/
+      }));
     }
     if (direction === "down") {
       setscrollDirection("down");
-      sethighlight((prev) => ({ scale: "1", fontSize: "1em" }));
+      sethighlight((prev) => ({
+        /*scale: "1", fontSize: "1em"*/
+      }));
     }
 
     setanimTimeout(
@@ -62,10 +67,18 @@ const ScrollWheel = ({ data, width, height, className }: WheelProps) => {
         if (direction === "down") data.unshift(data.pop());
 
         setscrollDirection(null);
-        sethighlight((prev) => ({ scale: "1.1", fontSize: "1.5em" }));
+
         setcurrPosition(33.33);
       }, animTime)
     );
+    setTimeout(() => {
+      sethighlight((prev) => ({
+        /*scale: "1.1",
+        fontSize: "1.5em",*/
+
+        color: "var(--text-color-dark)",
+      }));
+    }, 250);
   };
 
   return (
@@ -79,7 +92,8 @@ const ScrollWheel = ({ data, width, height, className }: WheelProps) => {
       style={{
         width: width,
         height: height,
-      }}>
+      }}
+    >
       <div
         className={
           scrollDirection === "up"
@@ -90,8 +104,11 @@ const ScrollWheel = ({ data, width, height, className }: WheelProps) => {
         }
         ref={items}
         style={{
+          width: width,
+          height: height,
           transform: `translateY(-${currPosition}%)`,
-        }}>
+        }}
+      >
         <div className={wheel.item}>{show[0].value}</div>
         <div className={wheel.item}>{show[1].value}</div>
         <div className={wheel.item} style={highlight}>

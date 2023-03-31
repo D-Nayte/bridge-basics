@@ -13,10 +13,12 @@
 
 #container > div > .item {
   height: 33.33%;
-  transition: scale 500ms ease-in, font-size 500ms ease-in-out;
+  transition: scale 0ms ease-in, font-size 0ms ease-in-out;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-weight: bold;
+  color: var(--text-color-light);
 }
 
 .up {

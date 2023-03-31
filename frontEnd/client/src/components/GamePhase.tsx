@@ -5,6 +5,7 @@ import BidButtons2 from "./BidButtons2";
 import BidSelection from "./BidSelection";
 import { suitOrder } from "@shared/lib/deck";
 import ErrorMessage from "./ErrorMessage";
+import ScrollWheel from "./ScrollWheel";
 import BidCarousel from "./BidCarousel";
 
 interface GamePhaseProps extends BridgeProps {
