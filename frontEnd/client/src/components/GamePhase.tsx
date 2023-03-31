@@ -1,4 +1,4 @@
-import { BridgeProps, Card, Player } from "@interface";
+import { BidSelect, BridgeProps, Card, Player } from "@interface";
 import React, { useState, useEffect, Dispatch } from "react";
 import bidStyle from "../style/bidPhase.module.css";
 import BidButtons2 from "./BidButtons2";
@@ -20,7 +20,10 @@ interface PrintedValues
   > {}
 
 const GamePhase = (props: GamePhaseProps) => {
-  const [selectedBid, setSelectedBid] = useState({
+  const [selectedBid, setSelectedBid] = useState<{
+    bidAmount: BidSelect | null;
+    bidSuit: BidSelect | null;
+  }>({
     bidAmount: null,
     bidSuit: null,
   });
@@ -45,12 +48,7 @@ const GamePhase = (props: GamePhaseProps) => {
   };
 
   return (
-    <div
-      className={bidStyle.wrapper}
-      /*style={{
-        border: ctx.currentPlayer === playerID ? "5px solid white" : "none",
-      }}*/
-    >
+    <div className={bidStyle.wrapper}>
       <ErrorMessage message={"you can't do this shit"} />
       <h1 className={bidStyle.temp_text}>{player?.name}</h1>
 
@@ -65,18 +63,10 @@ const GamePhase = (props: GamePhaseProps) => {
       )}
       {ctx.phase === "bid" && (
         <>
-          <BidCarousel setSelectedBid={setSelectedBid} />
+          <BidCarousel setSelectedBid={setSelectedBid} {...props} />
           <ul className={bidStyle.buttons_wrapper}>
             <BidButtons2 selectedBid={selectedBid} {...props} />
           </ul>
-          {/*<>
-          <div className={bidStyle.bidselection_wrapper}>
-            <BidSelection {...props} />
-          </div>
-          <ul className={bidStyle.buttons_wrapper}>
-            <BidButtons moves={moves} />
-          </ul>
-      </>*/}
         </>
       )}
     </div>

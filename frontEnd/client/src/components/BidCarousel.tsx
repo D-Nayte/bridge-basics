@@ -1,15 +1,25 @@
 import React, { useState, useEffect } from "react";
 import ScrollWheel from "./ScrollWheel";
 import carousel from "../style/bidCarousel.module.css";
-
 import {
   BsSuitClubFill,
   BsSuitDiamondFill,
   BsSuitHeartFill,
   BsSuitSpadeFill,
 } from "react-icons/bs";
+import { BidSelect, BridgeProps } from "@interface";
+import { suitOrder } from "@shared/lib/deck";
 
-const BidCarousel = ({ setSelectedBid }: any) => {
+interface CarouselProps extends BridgeProps {
+  setSelectedBid: React.Dispatch<
+    React.SetStateAction<{
+      bidAmount: BidSelect | null;
+      bidSuit: BidSelect | null;
+    }>
+  >;
+}
+
+const BidCarousel = ({ setSelectedBid, G, playerID, ctx }: CarouselProps) => {
   const [numbers, setnumbers] = useState([
     { value: 1 },
     { value: 2 },
@@ -19,7 +29,6 @@ const BidCarousel = ({ setSelectedBid }: any) => {
     { value: 6 },
     { value: 7 },
   ]);
-
   const [suits, setsuits] = useState([
     {
       value: <BsSuitHeartFill />,
@@ -47,11 +56,34 @@ const BidCarousel = ({ setSelectedBid }: any) => {
       id: "C",
     },
   ]);
-
   const bidNumber = numbers[2];
   const bidSuit = suits[2];
+  const [invalidBid, setinvalidBid] = useState(false);
+
+  const validateBid = () => {
+    const highestBid = G?.highestBid;
+    const activePlayer = ctx?.currentPlayer;
+    const isCurrentlyActivePlayer = activePlayer === playerID;
+
+    if (isCurrentlyActivePlayer) {
+      if (highestBid?.suit && highestBid?.level) {
+        const currentPlayerBid = bidNumber.value;
+        const highestLevel = parseInt(highestBid.level);
+
+        //if color level is less then the actuall one
+        if (currentPlayerBid <= highestLevel) {
+          const highestSuit = suitOrder.indexOf(highestBid.suit);
+          const currSuit = suitOrder.indexOf(bidSuit.id);
+          currSuit <= highestSuit ? setinvalidBid(true) : setinvalidBid(false);
+          return;
+        }
+        setinvalidBid(false);
+      }
+    }
+  };
 
   useEffect(() => {
+    validateBid();
     setSelectedBid(() => ({ bidAmount: numbers[2], bidSuit: suits[2] }));
   }, [numbers, suits]);
 
@@ -71,7 +103,9 @@ const BidCarousel = ({ setSelectedBid }: any) => {
             height={"75px"}
             changeData={setsuits}
           />
-          <div className={carousel.middle} />
+          <div
+            className={invalidBid ? carousel.middle_invalid : carousel.middle}
+          />
         </div>
         <div className={carousel.numbers_display_container}>
           <div>
@@ -84,8 +118,7 @@ const BidCarousel = ({ setSelectedBid }: any) => {
                     : bidSuit.color === "black"
                     ? "var(--text-color-dark)"
                     : "var(--white)",
-              }}
-            >
+              }}>
               {bidSuit.value}
             </p>
           </div>
