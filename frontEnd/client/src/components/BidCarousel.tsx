@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ScrollWheel from "./ScrollWheel";
 import carousel from "../style/bidCarousel.module.css";
+
 import {
   BsSuitClubFill,
   BsSuitDiamondFill,
@@ -8,7 +9,7 @@ import {
   BsSuitSpadeFill,
 } from "react-icons/bs";
 
-const BidCarousel = () => {
+const BidCarousel = ({ setSelectedBid }: any) => {
   const [numbers, setnumbers] = useState([
     { value: 1 },
     { value: 2 },
@@ -22,38 +23,41 @@ const BidCarousel = () => {
   const [suits, setsuits] = useState([
     {
       value: <BsSuitHeartFill />,
-      id: "0",
+      color: "red",
+      id: "H",
     },
     {
       value: "NT",
-      id: "1",
+      color: "NT",
+      id: "NT",
     },
     {
       value: <BsSuitSpadeFill />,
-      id: "2",
+      color: "black",
+      id: "S",
     },
     {
       value: <BsSuitDiamondFill />,
-      id: "3",
+      color: "red",
+      id: "D",
     },
     {
       value: <BsSuitClubFill />,
-      id: "4",
+      color: "black",
+      id: "C",
     },
   ]);
 
-  const bidNumber = numbers[2].value;
-  const bidSuit = suits[2].value;
+  const bidNumber = numbers[2];
+  const bidSuit = suits[2];
+
+  useEffect(() => {
+    setSelectedBid(() => ({ bidAmount: numbers[2], bidSuit: suits[2] }));
+  }, [numbers, suits]);
 
   return (
     <>
-      <div
-        id={carousel.container}
-        style={{
-          display: "flex",
-          padding: "20px",
-          justifyContent: "space-between",
-        }}>
+      <div id={carousel.container}>
         <div className={carousel.wheel_wrapper}>
           <ScrollWheel
             data={numbers}
@@ -69,31 +73,21 @@ const BidCarousel = () => {
           />
           <div className={carousel.middle} />
         </div>
-        <div
-          style={{
-            width: "60px",
-            background: "#22443d",
-            borderRadius: "15px",
-            padding: "15px",
-          }}>
-          <div
-            style={{
-              color: "white",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              height: "100%",
-              alignItems: "center",
-              padding: "0.5rem",
-            }}>
-            <BsSuitHeartFill
+        <div className={carousel.numbers_display_container}>
+          <div>
+            <p>{bidNumber.value}</p>
+            <p
               style={{
                 color:
-                  suits[0].id === "0"
+                  bidSuit.color === "red"
                     ? "var(--red)"
-                    : "var(--text-color-dark:)",
+                    : bidSuit.color === "black"
+                    ? "var(--text-color-dark)"
+                    : "var(--white)",
               }}
-            />
+            >
+              {bidSuit.value}
+            </p>
           </div>
         </div>
       </div>

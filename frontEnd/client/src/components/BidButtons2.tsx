@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import style from "../style/bidbutton2.module.css";
-import { BiLeftArrowCircle } from "react-icons/bi";
 
-const BidButtons2 = ({ moves }: { moves: any }) => {
+import { Bid, BridgeProps, Player, Suit } from "@interface";
+
+interface ButtonProps extends BridgeProps {
+  selectedBid: any;
+}
+
+const BidButtons2 = ({ selectedBid, moves, playerID }: ButtonProps) => {
+  const handleBid = (e: any) => {
+    if (selectedBid.bidAmount && selectedBid.bidSuit && playerID) {
+      moves.bid({
+        bidLevel: selectedBid.bidAmount.value,
+        bidSuit: selectedBid.bidSuit.id,
+      });
+    }
+  };
   const handlePass = () => {
     moves.playerpassed();
   };
@@ -18,11 +31,7 @@ const BidButtons2 = ({ moves }: { moves: any }) => {
   return (
     <>
       <li className={style.bidbuttons}>
-        <button
-          className={style.bidbuttons_button}
-          form="my-form"
-          type="submit"
-        >
+        <button className={style.bidbuttons_button} onClick={handleBid}>
           Bid
         </button>
       </li>

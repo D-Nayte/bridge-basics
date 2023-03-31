@@ -1,5 +1,5 @@
 import { BridgeProps, Card, Player } from "@interface";
-import React from "react";
+import React, { useState, useEffect, Dispatch } from "react";
 import bidStyle from "../style/bidPhase.module.css";
 import BidButtons2 from "./BidButtons2";
 import BidSelection from "./BidSelection";
@@ -11,8 +11,19 @@ import BidCarousel from "./BidCarousel";
 interface GamePhaseProps extends BridgeProps {
   player: Player | null;
 }
+interface PrintedValues
+  extends Dispatch<
+    React.SetStateAction<{
+      bidAmount: null | number;
+      bidSuit: null | string;
+    }>
+  > {}
 
 const GamePhase = (props: GamePhaseProps) => {
+  const [selectedBid, setSelectedBid] = useState({
+    bidAmount: null,
+    bidSuit: null,
+  });
   const { G, moves, player, playerID, ctx } = props;
   const handlePlayCard = (card: Card) => {
     moves.playCard(card);
@@ -54,9 +65,9 @@ const GamePhase = (props: GamePhaseProps) => {
       )}
       {ctx.phase === "bid" && (
         <>
-          <BidCarousel />
+          <BidCarousel setSelectedBid={setSelectedBid} />
           <ul className={bidStyle.buttons_wrapper}>
-            <BidButtons2 moves={moves} />
+            <BidButtons2 selectedBid={selectedBid} {...props} />
           </ul>
           {/*<>
           <div className={bidStyle.bidselection_wrapper}>
