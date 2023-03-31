@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from "react";
 import ScrollWheel from "./ScrollWheel";
 import carousel from "../style/bidCarousel.module.css";
+import bidStyle from "../style/bidPhase.module.css";
 import {
   BsSuitClubFill,
   BsSuitDiamondFill,
   BsSuitHeartFill,
   BsSuitSpadeFill,
 } from "react-icons/bs";
-import { BidSelect, BridgeProps } from "@interface";
+import { BidSelect, BridgeProps, CarouselProps } from "@interface";
 import { suitOrder } from "@shared/lib/deck";
+import BidButtons2 from "./BidButtons2";
 
-interface CarouselProps extends BridgeProps {
-  setSelectedBid: React.Dispatch<
-    React.SetStateAction<{
-      bidAmount: BidSelect | null;
-      bidSuit: BidSelect | null;
-    }>
-  >;
-}
-
-const BidCarousel = ({ setSelectedBid, G, playerID, ctx }: CarouselProps) => {
+const BidCarousel = (props: CarouselProps) => {
+  const { G, playerID, ctx, setErrorStatement } = props;
+  const [invalidBid, setinvalidBid] = useState(false);
+  const [selectedBid, setSelectedBid] = useState<{
+    bidAmount: BidSelect | null;
+    bidSuit: BidSelect | null;
+  }>({
+    bidAmount: null,
+    bidSuit: null,
+  });
   const [numbers, setnumbers] = useState([
     { value: 1 },
     { value: 2 },
@@ -58,7 +60,6 @@ const BidCarousel = ({ setSelectedBid, G, playerID, ctx }: CarouselProps) => {
   ]);
   const bidNumber = numbers[2];
   const bidSuit = suits[2];
-  const [invalidBid, setinvalidBid] = useState(false);
 
   const validateBid = () => {
     const highestBid = G?.highestBid;
@@ -93,14 +94,14 @@ const BidCarousel = ({ setSelectedBid, G, playerID, ctx }: CarouselProps) => {
         <div className={carousel.wheel_wrapper}>
           <ScrollWheel
             data={numbers}
-            width={"50px"}
-            height={"75px"}
+            width={"25vw"}
+            height={"25vh"}
             changeData={setnumbers}
           />
           <ScrollWheel
             data={suits}
-            width={"50px"}
-            height={"75px"}
+            width={"25vw"}
+            height={"25vh"}
             changeData={setsuits}
           />
           <div
@@ -118,12 +119,21 @@ const BidCarousel = ({ setSelectedBid, G, playerID, ctx }: CarouselProps) => {
                     : bidSuit.color === "black"
                     ? "var(--text-color-dark)"
                     : "var(--white)",
-              }}>
+              }}
+            >
               {bidSuit.value}
             </p>
           </div>
         </div>
       </div>
+      <ul className={bidStyle.buttons_wrapper}>
+        <BidButtons2
+          invalidBid={invalidBid}
+          selectedBid={selectedBid}
+          {...props}
+          setErrorStatement={setErrorStatement}
+        />
+      </ul>
     </>
   );
 };

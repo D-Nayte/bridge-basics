@@ -19,13 +19,8 @@ interface PrintedValues
   > {}
 
 const GamePhase = (props: GamePhaseProps) => {
-  const [selectedBid, setSelectedBid] = useState<{
-    bidAmount: BidSelect | null;
-    bidSuit: BidSelect | null;
-  }>({
-    bidAmount: null,
-    bidSuit: null,
-  });
+  const [errorStatement, setErrorStatement] = useState<any>(null);
+
   const { G, moves, player, playerID, ctx } = props;
   const handlePlayCard = (card: Card) => {
     moves.playCard(card);
@@ -48,7 +43,12 @@ const GamePhase = (props: GamePhaseProps) => {
 
   return (
     <div className={bidStyle.wrapper}>
-      <ErrorMessage message={"you can't do this shit"} />
+      {errorStatement && (
+        <ErrorMessage
+          message={errorStatement}
+          setErrorStatement={setErrorStatement}
+        />
+      )}
       <h1 className={bidStyle.temp_text}>{player?.name}</h1>
 
       {player && (
@@ -62,10 +62,7 @@ const GamePhase = (props: GamePhaseProps) => {
       )}
       {ctx.phase === "bid" && (
         <>
-          <BidCarousel setSelectedBid={setSelectedBid} {...props} />
-          <ul className={bidStyle.buttons_wrapper}>
-            <BidButtons2 selectedBid={selectedBid} {...props} />
-          </ul>
+          <BidCarousel {...props} setErrorStatement={setErrorStatement} />
         </>
       )}
       {ctx.currentPlayer === playerID && <EdgeLighter />}
