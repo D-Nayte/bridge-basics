@@ -1,0 +1,29 @@
+#container .middle {
+  position: absolute;
+  height: 25%;
+  top: 50%;
+  transform: translateY(-55%);
+  left: var(--default-padding);
+  width: calc(100% - calc(var(--default-padding) * 2));
+  background-color: #7c7c7c77;
+  border-radius: 0.3em;
+  z-index: 0;
+}
+
+.wheel_wrapper > div:first-child {
+  border-right: 1px solid #7c7c7c77;
+  z-index: 1;
+}
+.wheel_wrapper > div:nth-child(2) {
+  border-left: 1px solid #7c7c7c77;
+  z-index: 1;
+}
+
+.wheel_wrapper {
+  position: relative;
+  background-color: white;
+  border-radius: 15px;
+  display: flex;
+  padding: 0.5rem 1.25rem;
+  padding: var(--default-padding);
+}

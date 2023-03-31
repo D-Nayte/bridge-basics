@@ -17,9 +17,6 @@ const ScrollWheel = ({ data, width, height, className }: WheelProps) => {
   const items = useRef("");
   const animTime = 250;
   const [highlight, sethighlight] = useState({
-    //scale: "1.1",
-    //fontSize: "1.3em",
-    //fontWeight: "800",
     color: "var(--text-color-dark)",
   });
   const [animTimeout, setanimTimeout] = useState(null);
@@ -50,15 +47,9 @@ const ScrollWheel = ({ data, width, height, className }: WheelProps) => {
 
     if (direction === "up") {
       setscrollDirection("up");
-      sethighlight((prev) => ({
-        /*scale: "1", fontSize: "1em"*/
-      }));
     }
     if (direction === "down") {
       setscrollDirection("down");
-      sethighlight((prev) => ({
-        /*scale: "1", fontSize: "1em"*/
-      }));
     }
 
     setanimTimeout(
@@ -73,12 +64,11 @@ const ScrollWheel = ({ data, width, height, className }: WheelProps) => {
     );
     setTimeout(() => {
       sethighlight((prev) => ({
-        /*scale: "1.1",
-        fontSize: "1.5em",*/
+        ...prev,
 
         color: "var(--text-color-dark)",
       }));
-    }, 250);
+    }, 850);
   };
 
   return (
@@ -92,8 +82,7 @@ const ScrollWheel = ({ data, width, height, className }: WheelProps) => {
       style={{
         width: width,
         height: height,
-      }}
-    >
+      }}>
       <div
         className={
           scrollDirection === "up"
@@ -107,8 +96,7 @@ const ScrollWheel = ({ data, width, height, className }: WheelProps) => {
           width: width,
           height: height,
           transform: `translateY(-${currPosition}%)`,
-        }}
-      >
+        }}>
         <div className={wheel.item}>{show[0].value}</div>
         <div className={wheel.item}>{show[1].value}</div>
         <div className={wheel.item} style={highlight}>

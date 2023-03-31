@@ -1,10 +1,7 @@
 import React from "react";
 import ScrollWheel from "./ScrollWheel";
+import carousel from "../style/bidCarousel.module.css";
 import {
-  BsSuitClub,
-  BsSuitDiamond,
-  BsSuitHeart,
-  BsSuitSpade,
   BsSuitClubFill,
   BsSuitDiamondFill,
   BsSuitHeartFill,
@@ -41,24 +38,16 @@ const BidCarousel = () => {
   return (
     <>
       <div
+        id={carousel.container}
         style={{
           display: "flex",
           padding: "20px",
           justifyContent: "space-between",
-        }}
-      >
-        <div
-          style={{
-            background: "white",
-            width: "150px",
-            height: "100px",
-            borderRadius: "15px",
-            display: "flex",
-            padding: "15px",
-          }}
-        >
+        }}>
+        <div className={carousel.wheel_wrapper}>
           <ScrollWheel data={numbers} width={"50px"} height={"75px"} />
           <ScrollWheel data={suits} width={"50px"} height={"75px"} />
+          <div className={carousel.middle} />
         </div>
         <div
           style={{
@@ -66,8 +55,7 @@ const BidCarousel = () => {
             background: "#22443d",
             borderRadius: "15px",
             padding: "15px",
-          }}
-        ></div>
+          }}></div>
       </div>
     </>
   );
