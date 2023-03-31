@@ -78,7 +78,8 @@ const ScrollWheel = ({
       style={{
         width: width,
         height: height,
-      }}>
+      }}
+    >
       <div
         className={
           scrollDirection === "up"
@@ -92,7 +93,8 @@ const ScrollWheel = ({
           width: width,
           height: height,
           transform: `translateY(-${currPosition}%)`,
-        }}>
+        }}
+      >
         <div className={wheel.item}>{show[0].value}</div>
         <div className={wheel.item}>{show[1].value}</div>
         <div className={wheel.item}>{show[2].value}</div>

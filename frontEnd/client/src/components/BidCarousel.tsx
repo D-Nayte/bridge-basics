@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ScrollWheel from "./ScrollWheel";
 import carousel from "../style/bidCarousel.module.css";
 import {
@@ -22,18 +22,23 @@ const BidCarousel = () => {
   const [suits, setsuits] = useState([
     {
       value: <BsSuitHeartFill />,
+      id: "0",
     },
     {
       value: "NT",
+      id: "1",
     },
     {
       value: <BsSuitSpadeFill />,
+      id: "2",
     },
     {
       value: <BsSuitDiamondFill />,
+      id: "3",
     },
     {
       value: <BsSuitClubFill />,
+      id: "4",
     },
   ]);
 
@@ -71,8 +76,25 @@ const BidCarousel = () => {
             borderRadius: "15px",
             padding: "15px",
           }}>
-          {bidNumber}
-          {bidSuit}
+          <div
+            style={{
+              color: "white",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "100%",
+              alignItems: "center",
+              padding: "0.5rem",
+            }}>
+            <BsSuitHeartFill
+              style={{
+                color:
+                  suits[0].id === "0"
+                    ? "var(--red)"
+                    : "var(--text-color-dark:)",
+              }}
+            />
+          </div>
         </div>
       </div>
     </>
