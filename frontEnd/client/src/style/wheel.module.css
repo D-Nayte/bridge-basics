@@ -1,0 +1,40 @@
+#container {
+  overflow: hidden;
+}
+
+#container > div {
+  width: 100%;
+  height: 100%;
+}
+
+#container div {
+  text-align: center;
+}
+
+#container > div > .item {
+  height: 33.33%;
+  transition: scale 500ms ease-in, font-size 500ms ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.up {
+  animation: scrollUp 250ms forwards ease-in-out;
+}
+
+@keyframes scrollUp {
+  to {
+    transform: translateY(-66.66%);
+  }
+}
+
+.down {
+  animation: scrollDown 100ms forwards ease-in-out;
+}
+
+@keyframes scrollDown {
+  to {
+    transform: translateY(0);
+  }
+}
