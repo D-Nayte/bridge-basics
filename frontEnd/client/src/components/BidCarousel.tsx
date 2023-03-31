@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ScrollWheel from "./ScrollWheel";
 import carousel from "../style/bidCarousel.module.css";
 import {
@@ -21,20 +21,31 @@ const BidCarousel = () => {
   const suits = [
     {
       value: <BsSuitHeartFill />,
+      id: "0",
     },
     {
       value: "NT",
+      id: "1",
     },
     {
       value: <BsSuitSpadeFill />,
+      id: "2",
     },
     {
       value: <BsSuitDiamondFill />,
+      id: "3",
     },
     {
       value: <BsSuitClubFill />,
+      id: "4",
     },
   ];
+  const test = numbers[2].value;
+
+  useEffect(() => {
+    console.log("numbers", numbers);
+  }, [numbers]);
+
   return (
     <>
       <div
@@ -43,7 +54,8 @@ const BidCarousel = () => {
           display: "flex",
           padding: "20px",
           justifyContent: "space-between",
-        }}>
+        }}
+      >
         <div className={carousel.wheel_wrapper}>
           <ScrollWheel data={numbers} width={"50px"} height={"75px"} />
           <ScrollWheel data={suits} width={"50px"} height={"75px"} />
@@ -55,7 +67,32 @@ const BidCarousel = () => {
             background: "#22443d",
             borderRadius: "15px",
             padding: "15px",
-          }}></div>
+          }}
+        >
+          <div
+            style={{
+              color: "white",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "100%",
+              alignItems: "center",
+              padding: "0.5rem",
+            }}
+          >
+            <h2>{test}</h2>
+
+            <BsSuitHeartFill
+              style={{
+                color:
+                  suits[0].id === "0"
+                    ? "var(--red)"
+                    : "var(--text-color-dark:)",
+              }}
+            />
+          </div>
+        </div>
+        {console.log("suits[0].value", suits[0].value)}
       </div>
     </>
   );
