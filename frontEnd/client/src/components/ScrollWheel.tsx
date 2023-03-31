@@ -1,5 +1,5 @@
 //@ts-nocheck
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef, SetStateAction, Dispatch } from "react";
 import wheel from "../style/wheel.module.css";
 
 interface WheelProps {
@@ -7,24 +7,27 @@ interface WheelProps {
   width?: string;
   height?: string;
   className?: string;
+  changeData?: any;
 }
 
-const ScrollWheel = ({ data, width, height, className }: WheelProps) => {
+const ScrollWheel = ({
+  data,
+  width,
+  height,
+  className,
+  changeData,
+}: WheelProps) => {
   const [scrollDirection, setscrollDirection] = useState(null);
   const [touchStart, setstartTouch] = useState(0);
   const [currPosition, setcurrPosition] = useState(33.33);
   const show = data.slice(0, 5);
   const items = useRef("");
-  const animTime = 250;
-  const [highlight, sethighlight] = useState({
-    color: "var(--text-color-dark)",
-  });
-  const [animTimeout, setanimTimeout] = useState(null);
   const handleMove = (e) => {
     const end = e.changedTouches[0].clientY;
     if (touchStart > end) return setcurrPosition((prev) => prev + 0.45);
     if (touchStart < end) return setcurrPosition((prev) => prev - 0.45);
   };
+  const animTime = 250;
 
   const handleScroll = (e) => {
     const end = e.changedTouches[0].clientY;
@@ -43,32 +46,25 @@ const ScrollWheel = ({ data, width, height, className }: WheelProps) => {
 
   const scrollAnimation = (direction) => {
     clearTimeout(animTime);
-    setanimTimeout(null);
 
     if (direction === "up") {
       setscrollDirection("up");
+      //@ts-ignore
+      changeData(() => [...data]);
     }
     if (direction === "down") {
       setscrollDirection("down");
     }
 
-    setanimTimeout(
-      setTimeout(() => {
-        if (direction === "up") data.push(data.shift());
-        if (direction === "down") data.unshift(data.pop());
-
-        setscrollDirection(null);
-
-        setcurrPosition(33.33);
-      }, animTime)
-    );
     setTimeout(() => {
-      sethighlight((prev) => ({
-        ...prev,
+      if (direction === "up") data.push(data.shift());
+      if (direction === "down") data.unshift(data.pop());
 
-        color: "var(--text-color-dark)",
-      }));
-    }, 850);
+      setscrollDirection(null);
+      setcurrPosition(33.33);
+
+      changeData(() => [...data]);
+    }, animTime);
   };
 
   return (
@@ -99,9 +95,7 @@ const ScrollWheel = ({ data, width, height, className }: WheelProps) => {
         }}>
         <div className={wheel.item}>{show[0].value}</div>
         <div className={wheel.item}>{show[1].value}</div>
-        <div className={wheel.item} style={highlight}>
-          {show[2].value}
-        </div>
+        <div className={wheel.item}>{show[2].value}</div>
         <div className={wheel.item}>{show[3].value}</div>
         <div className={wheel.item}>{show[4].value}</div>
       </div>

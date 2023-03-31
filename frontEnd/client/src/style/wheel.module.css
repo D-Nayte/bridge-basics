@@ -1,6 +1,5 @@
 #container {
   position: relative;
-
   overflow: hidden;
 }
 
@@ -24,7 +23,7 @@
 }
 
 .up {
-  animation: scrollUp 250ms forwards ease-in-out;
+  animation: scrollUp 150ms forwards ease-in-out;
 }
 
 @keyframes scrollUp {
@@ -34,7 +33,7 @@
 }
 
 .down {
-  animation: scrollDown 100ms forwards ease-in-out;
+  animation: scrollDown 150ms forwards ease-in-out;
 }
 
 @keyframes scrollDown {

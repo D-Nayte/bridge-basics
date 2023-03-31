@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ScrollWheel from "./ScrollWheel";
 import carousel from "../style/bidCarousel.module.css";
 import {
@@ -9,7 +9,7 @@ import {
 } from "react-icons/bs";
 
 const BidCarousel = () => {
-  const numbers = [
+  const [numbers, setnumbers] = useState([
     { value: 1 },
     { value: 2 },
     { value: 3 },
@@ -17,8 +17,9 @@ const BidCarousel = () => {
     { value: 5 },
     { value: 6 },
     { value: 7 },
-  ];
-  const suits = [
+  ]);
+
+  const [suits, setsuits] = useState([
     {
       value: <BsSuitHeartFill />,
     },
@@ -34,7 +35,11 @@ const BidCarousel = () => {
     {
       value: <BsSuitClubFill />,
     },
-  ];
+  ]);
+
+  const bidNumber = numbers[2].value;
+  const bidSuit = suits[2].value;
+
   return (
     <>
       <div
@@ -45,8 +50,18 @@ const BidCarousel = () => {
           justifyContent: "space-between",
         }}>
         <div className={carousel.wheel_wrapper}>
-          <ScrollWheel data={numbers} width={"50px"} height={"75px"} />
-          <ScrollWheel data={suits} width={"50px"} height={"75px"} />
+          <ScrollWheel
+            data={numbers}
+            width={"50px"}
+            height={"75px"}
+            changeData={setnumbers}
+          />
+          <ScrollWheel
+            data={suits}
+            width={"50px"}
+            height={"75px"}
+            changeData={setsuits}
+          />
           <div className={carousel.middle} />
         </div>
         <div
@@ -55,7 +70,10 @@ const BidCarousel = () => {
             background: "#22443d",
             borderRadius: "15px",
             padding: "15px",
-          }}></div>
+          }}>
+          {bidNumber}
+          {bidSuit}
+        </div>
       </div>
     </>
   );
