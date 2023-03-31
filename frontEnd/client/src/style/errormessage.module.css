@@ -1,7 +1,7 @@
 .errormessage_container {
   position: fixed;
   top: 0;
-  background-color: var(--red);
+  background-color: var(--white);
   width: 100%;
   height: 7rem;
   z-index: 10;
@@ -13,7 +13,7 @@
 
 .errormessage_container h2 {
   font-size: 1.5rem;
-  color: var(--white);
+  color: var(--red);
 }
 .errormessage_container::before {
   content: "";
@@ -22,7 +22,7 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background-color: var(--white);
+  background-color: var(--red);
   animation: lineShrink 4s linear;
   animation-fill-mode: forwards;
 }

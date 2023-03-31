@@ -1,0 +1,50 @@
+.lighten {
+  position: fixed;
+  top: -10%;
+  left: 0;
+  right: 0;
+  bottom: -10%;
+  animation-name: lighten;
+  animation-duration: 5s;
+  animation-timing-function: ease-in-out;
+
+  pointer-events: none;
+}
+
+@keyframes lighten {
+  0% {
+    box-shadow: 0 0 0 20vw rgba(255, 255, 255, 0.8);
+    filter: blur(10px);
+    opacity: 0;
+  }
+  16.6% {
+    box-shadow: 0 0 0 100vw rgba(255, 255, 255, 0.8);
+    filter: blur(10px);
+    opacity: 1;
+  }
+  33.2% {
+    box-shadow: 0 0 0 20vw rgba(255, 255, 255, 0.8);
+    filter: blur(10px);
+    opacity: 0.4;
+  }
+  49.8% {
+    box-shadow: 0 0 0 100vw rgba(255, 255, 255, 0.8);
+    filter: blur(10px);
+    opacity: 1;
+  }
+  66.4% {
+    box-shadow: 0 0 0 20vw rgba(255, 255, 255, 0.8);
+    filter: blur(10px);
+    opacity: 0.4;
+  }
+  83% {
+    box-shadow: 0 0 0 100vw rgba(255, 255, 255, 0.8);
+    filter: blur(10px);
+    opacity: 1;
+  }
+  100% {
+    box-shadow: 0 0 0 20vw rgba(255, 255, 255, 0.8);
+    filter: blur(10px);
+    opacity: 0;
+  }
+}

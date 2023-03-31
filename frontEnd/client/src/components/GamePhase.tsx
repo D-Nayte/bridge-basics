@@ -1,12 +1,11 @@
 import { BridgeProps, Card, Player } from "@interface";
-import React, { useState, useEffect, Dispatch } from "react";
+import React, { useState, Dispatch } from "react";
 import bidStyle from "../style/bidPhase.module.css";
 import BidButtons2 from "./BidButtons2";
-import BidSelection from "./BidSelection";
 import { suitOrder } from "@shared/lib/deck";
 import ErrorMessage from "./ErrorMessage";
-import ScrollWheel from "./ScrollWheel";
 import BidCarousel from "./BidCarousel";
+import EdgeLighter from "./EdgeLighter";
 
 interface GamePhaseProps extends BridgeProps {
   player: Player | null;
@@ -51,7 +50,7 @@ const GamePhase = (props: GamePhaseProps) => {
         border: ctx.currentPlayer === playerID ? "5px solid white" : "none",
       }}*/
     >
-      <ErrorMessage message={"you can't do this shit"} />
+      <ErrorMessage message={"Move can't be played"} />
       <h1 className={bidStyle.temp_text}>{player?.name}</h1>
 
       {player && (
@@ -79,6 +78,7 @@ const GamePhase = (props: GamePhaseProps) => {
       </>*/}
         </>
       )}
+      {ctx.currentPlayer === playerID && <EdgeLighter />}
     </div>
   );
 };
