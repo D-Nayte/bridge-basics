@@ -9,22 +9,15 @@ COPY ../../package.json ./
 # Install dependencies
 RUN npm install
 
-COPY ../../frontEnd/client ./frontEnd/client
-COPY ../../frontEnd/display ./frontEnd/dispaly
+COPY ../../frontEnd/display ./frontEnd/display
 COPY ../../shared ./shared
-COPY ../../server ./server
 COPY ../../.env ./
 COPY ../../tsconfig.json ./
 
 
 # Start the application
-CMD ["npm","run","dev"]
+CMD ["npm","run","dev_display"]
 
-
-EXPOSE 3001
 EXPOSE 3002
-EXPOSE 3003
-EXPOSE 8080
 
-
-# Build commanbd from app root dir!: "docker build -t andyschunke/bridge-demo -f docker/demo/Dockerfile ."
+# Build commanbd from app root dir!: "docker build -t andyschunke/bridge-display -f frontend/display/Dockerfile ."

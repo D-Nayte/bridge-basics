@@ -9,15 +9,15 @@ COPY ../../package.json ./
 # Install dependencies
 RUN npm install
 
-COPY ../../server ./server
+COPY ../../frontEnd/client ./frontEnd/client
 COPY ../../shared ./shared
 COPY ../../.env ./
 COPY ../../tsconfig.json ./
 
 
 # Start the application
-CMD ["npm","run","dev_server"]
+CMD ["npm","run","dev_client"]
 
-EXPOSE 8080
+EXPOSE 3001
 
-# Build commanbd from app root dir!: "docker build -t andyschunke/bridge-server -f docker/server/Dockerfile ."
+# Build commanbd from app root dir!: "docker build -t andyschunke/bridge-client -f frontend/client/Dockerfile ."
