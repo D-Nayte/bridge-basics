@@ -9,11 +9,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     if (typeof window !== undefined) {
-      // get protocoll(http,https) from browser
-      const protocoll = window.location.protocol;
-      const urls: URLS = getURLs({
-        protocoll,
-      });
+      const urls: URLS = getURLs();
       seturls(urls);
     }
   }, []);

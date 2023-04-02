@@ -7,30 +7,27 @@ import lobby from "../styles/lobby.module.css";
 
 const Lobby = ({ urls }: { urls: URLS }) => {
   const clientPort: String | undefined = process.env.NEXT_PUBLIC_CLIENT_PORT;
-  const { serverURL } = urls;
+  const { serverURL, serverAdress } = urls;
   const lobbyClient = new LobbyClient({ server: serverURL.origin });
   const [matchData, setmatchData] = useState<MatchData | null>(null);
+  const [matchURL, setmatchURL] = useState<string>("");
+  const router = useRouter();
   const BridgeClient = createBridgeClient({
     socketAdress: `${process.env.NEXT_PUBLIC_Server_ADDRESS}:${process.env.NEXT_PUBLIC_SERVER_PORT}`,
   });
-  // const [BridgeClient, setBridgeClient] = useState<any>();
-  const [matchURL, setmatchURL] = useState<string>("");
-  const router = useRouter();
 
   // create a game on server and return the matchID
-  const createGame = async (protocoll: string) => {
+  const createGame = async () => {
     const url = serverURL;
-    url.pathname = "serverIp";
+
     try {
       const { matchID } = await lobbyClient.createMatch("bridge", {
         numPlayers: 5,
 
         setupData: { test: "kasldnlk", name: "display" },
       });
-      const response = await fetch(url.href, { method: "POST" });
-      const { serverIp } = await response.json();
 
-      createClientURL({ serverIp, matchID, protocoll });
+      createClientURL({ matchID });
       joinMatch(matchID);
       setmatchData({ matchID });
     } catch (error) {
@@ -61,33 +58,22 @@ const Lobby = ({ urls }: { urls: URLS }) => {
   };
 
   //create Client URL for qr code
-  const createClientURL = ({
-    serverIp,
-    matchID,
-    protocoll,
-  }: {
-    serverIp: string;
-    matchID: string;
-    protocoll: string;
-  }) => {
-    const lobbyURL = new URL(`${protocoll}${serverIp}:${clientPort}`);
+  const createClientURL = ({ matchID }: { matchID: string }) => {
+    const lobbyURL = new URL(`${serverAdress}:${clientPort}`);
     lobbyURL.pathname = "lobby";
     lobbyURL.searchParams.set("matchID", matchID);
     setmatchURL(lobbyURL.href);
   };
-
-  useEffect(() => {}, []);
 
   useEffect(() => {
     if (typeof window !== undefined) {
       if (router.isReady) {
         const matchID: string | string[] | undefined = router?.query?.matchID;
 
-        // get protocoll(http,https) from browser
-        const protocoll = window.location.protocol;
+        // get (http,https) from browser
 
         if (!matchID) {
-          createGame(protocoll);
+          createGame();
           return;
         }
 
@@ -101,6 +87,7 @@ const Lobby = ({ urls }: { urls: URLS }) => {
 
   return (
     <>
+      <h1>DISPLAY!!!</h1>
       <div className={lobby.lobby}>
         {BridgeClient && matchData && (
           <BridgeClient matchID={matchData.matchID} matchURL={matchURL} />

@@ -1,6 +1,6 @@
 import { URLS } from "@interface";
 
-export const getURLs = ({ protocoll }: { protocoll: string }): URLS => {
+export const getURLs = (): URLS => {
   const serverPort: string | undefined = process.env.NEXT_PUBLIC_SERVER_PORT;
   const clientPort: string | undefined = process.env.NEXT_PUBLIC_CLIENT_PORT;
   const displayPort: string | undefined = process.env.NEXT_PUBLIC_DISPLAY_PORT;
@@ -16,5 +16,6 @@ export const getURLs = ({ protocoll }: { protocoll: string }): URLS => {
     serverPort,
     clientPort,
     displayPort,
+    serverAdress,
   };
 };
