@@ -91,23 +91,6 @@ const BidCarousel = (props: CarouselProps) => {
   return (
     <>
       <div id={carousel.container}>
-        <div className={carousel.wheel_wrapper}>
-          <ScrollWheel
-            data={numbers}
-            width={"25vw"}
-            height={"25vh"}
-            changeData={setnumbers}
-          />
-          <ScrollWheel
-            data={suits}
-            width={"25vw"}
-            height={"25vh"}
-            changeData={setsuits}
-          />
-          <div
-            className={invalidBid ? carousel.middle_invalid : carousel.middle}
-          />
-        </div>
         <div className={carousel.numbers_display_container}>
           <div>
             <p>{bidNumber.value}</p>
@@ -124,6 +107,23 @@ const BidCarousel = (props: CarouselProps) => {
               {bidSuit.value}
             </p>
           </div>
+        </div>
+        <div className={carousel.wheel_wrapper}>
+          <ScrollWheel
+            data={numbers}
+            width={"25vw"}
+            height={"25vh"}
+            changeData={setnumbers}
+          />
+          <ScrollWheel
+            data={suits}
+            width={"25vw"}
+            height={"25vh"}
+            changeData={setsuits}
+          />
+          <div
+            className={invalidBid ? carousel.middle_invalid : carousel.middle}
+          />
         </div>
       </div>
       <ul className={bidStyle.buttons_wrapper}>
