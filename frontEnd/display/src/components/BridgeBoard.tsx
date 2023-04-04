@@ -13,7 +13,7 @@ interface BridgeBoardProps extends BridgeProps {
 
 const BridgeBoard = (props: BridgeBoardProps) => {
   const { G, ctx, plugins, matchData, matchURL } = props;
-  console.log("props :>> ", props);
+
   return (
     <div>
       {matchURL !== "" && ctx.phase === "create" && (
@@ -22,7 +22,8 @@ const BridgeBoard = (props: BridgeBoardProps) => {
           <Link
             href={`${matchURL}`}
             target="_blank"
-            style={{ padding: "10rem" }}>
+            style={{ padding: "10rem" }}
+          >
             <Qrcode matchURL={matchURL} />
           </Link>
         </>

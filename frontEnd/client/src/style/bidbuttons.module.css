@@ -1,5 +1,18 @@
+.bidbuttons {
+  flex-basis: 25%;
+}
+
 .bidbuttons_button {
+  width: 100%;
+  height: 100%;
   display: flex;
-  width: 7rem;
   justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  height: 4rem;
+  font-weight: bold;
+}
+.bidbuttons_button:hover {
+  background-color: #808080;
+  color: var(--white);
 }

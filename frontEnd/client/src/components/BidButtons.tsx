@@ -1,5 +1,6 @@
 import React from "react";
 import style from "../style/bidbuttons.module.css";
+import { BiLeftArrowCircle } from "react-icons/bi";
 
 const BidButtons = ({ moves }: { moves: any }) => {
   const handlePass = () => {
@@ -16,6 +17,15 @@ const BidButtons = ({ moves }: { moves: any }) => {
 
   return (
     <>
+      <li className={style.bidbuttons}>
+        <button
+          className={style.bidbuttons_button}
+          form="my-form"
+          type="submit"
+        >
+          Bid
+        </button>
+      </li>
       <li className={style.bidbuttons}>
         <button className={style.bidbuttons_button} onClick={handlePass}>
           Pass

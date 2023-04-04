@@ -1,0 +1,30 @@
+version: "3"
+services:
+  client:
+    build:
+      context: ../
+      dockerfile: ./frontEnd/client/Dockerfile
+    ports:
+      - "3001:3001"
+    image: andyschunke/bridge-client
+  display:
+    build:
+      context: ../
+      dockerfile: ./frontEnd/display/Dockerfile
+    ports:
+      - "3002:3002"
+    image: andyschunke/bridge-display
+  demo:
+    build:
+      context: ../
+      dockerfile: ./frontEnd/demo/Dockerfile
+    ports:
+      - "3003:3003"
+    image: andyschunke/bridge-demo
+  server:
+    build:
+      context: ../
+      dockerfile: ./server/Dockerfile
+    ports:
+      - "8080:8080"
+    image: andyschunke/bridge-server

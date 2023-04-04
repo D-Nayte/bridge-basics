@@ -1,5 +1,7 @@
 import type { Game, Move, Ctx, FnContext } from "boardgame.io";
 import type { BoardProps } from "boardgame.io/react";
+import { IconType } from "react-icons/lib";
+import { JsxElement } from "typescript";
 
 export interface URLS {
   serverURL: URL;
@@ -96,3 +98,13 @@ export interface BridgeParams
 
 // React component
 export interface BridgeProps extends BoardProps<BridgeState> {}
+
+export interface BidSelect {
+  value: any;
+  color?: string;
+  id?: string | number;
+}
+
+export interface CarouselProps extends BridgeProps {
+  setErrorStatement: React.Dispatch<React.SetStateAction<any>>;
+}

@@ -14,10 +14,13 @@ COPY ../../shared ./shared
 COPY ../../.env ./
 COPY ../../tsconfig.json ./
 
+RUN npm run build_client
+
 
 # Start the application
-CMD ["npm","run","dev_client"]
+CMD ["npm","run","start_client"]
+
 
 EXPOSE 3001
 
-# Build commanbd from app root dir!: "docker build -t andyschunke/bridge-client -f docker/frontend/client/Dockerfile ."
+# Build commanbd from app root dir!: "docker build -t andyschunke/bridge-client -f frontend/client/Dockerfile ."

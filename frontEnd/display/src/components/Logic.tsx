@@ -8,7 +8,7 @@ import {
   BsFillSuitClubFill,
 } from "react-icons/bs";
 import { AiOutlineStop } from "react-icons/ai";
-import { IconManifest } from "react-icons/lib/esm/iconsManifest";
+import Contract from "./Contract";
 
 function getSuitSymbol(suit: Suit = "NT") {
   const symbolList = {
@@ -21,7 +21,6 @@ function getSuitSymbol(suit: Suit = "NT") {
 
   return symbolList[suit];
 }
-console.log("getSuitSymbol ", getSuitSymbol("H"));
 
 const Logic = (props: BridgeProps) => {
   const { G, ctx, plugins, matchData } = props;
@@ -31,20 +30,22 @@ const Logic = (props: BridgeProps) => {
       <div className={style.logic_container_text}>
         <p>Contract double: {G.contract?.double}</p>
         <p>Contract redouble: {G.contract?.redouble}</p>
-        <p>Contract level: {G.contract?.level}</p>
-        <p>Contract suit: {G.contract?.suit}</p>
       </div>
       {G.contract?.suit && (
-        <h2
-          style={{
-            color:
-              G.contract?.suit === "H" || G.contract?.suit === "D"
-                ? "var(--red)"
-                : "black",
-          }}
-        >
-          {G.contract?.level} {getSuitSymbol(G.contract.suit)}
-        </h2>
+        <>
+          <Contract {...props} />
+          <h2>Current Contract:</h2>
+          <h2
+            className={style.logic_contract_suit}
+            style={{
+              color:
+                G.contract?.suit === "H" || G.contract?.suit === "D"
+                  ? "var(--red)"
+                  : "black",
+            }}>
+            {G.contract?.level} {getSuitSymbol(G.contract.suit)}
+          </h2>
+        </>
       )}
       <div className={style.logic_cards_ul}>
         <h1>Played Cards</h1>

@@ -1,0 +1,58 @@
+.container {
+  position: relative;
+  height: 150px;
+  width: 100px;
+  overflow: hidden;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+.item {
+  height: 30px;
+  width: 100%;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+.active {
+  font-size: 30px;
+}
+
+.previous,
+.next {
+  position: absolute;
+  height: 30px;
+  width: 100%;
+  font-size: 20px;
+  color: #999;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.previous {
+  top: 0;
+  transform: translateY(-100%);
+}
+
+.next {
+  bottom: 0;
+  transform: translateY(100%);
+}
+
+.container:hover .previous,
+.container:hover .next {
+  transform: translateY(0%);
+}

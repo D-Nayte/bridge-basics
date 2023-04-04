@@ -14,3 +14,13 @@
 .logic_cards_ul ul li img {
   width: 8rem;
 }
+.logic_contract_suit {
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.5rem;
+  justify-content: center;
+  height: 7rem;
+  aspect-ratio: 1/1.4;
+  background: var(--white);
+  border-radius: var(--default-border-radius);
+}

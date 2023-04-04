@@ -1,0 +1,30 @@
+.bidbuttons_button {
+  background: none;
+  padding: var(--default-padding);
+  color: var(--white);
+  font-size: 1.7rem;
+  font-weight: 500;
+  cursor: pointer;
+  height: 2.5rem;
+  align-items: center;
+  display: flex;
+  letter-spacing: 0.2rem;
+}
+.bidbuttons {
+  width: 100%;
+  display: flex;
+
+  justify-content: center;
+}
+.bidbuttons:active {
+  background: rgba(255, 255, 255, 0.145);
+}
+.bidbuttons:first-child {
+  border-right: 0.1rem solid white;
+}
+.bidbuttons:nth-child(2) {
+  border-right: 0.1rem solid white;
+}
+.bidbuttons:nth-child(3) {
+  border-right: 0.1rem solid white;
+}

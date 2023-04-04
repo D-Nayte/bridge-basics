@@ -14,10 +14,12 @@ COPY ../../shared ./shared
 COPY ../../.env ./
 COPY ../../tsconfig.json ./
 
+# building the next app
+RUN npm run build_display
 
 # Start the application
-CMD ["npm","run","dev_display"]
+CMD ["npm","run","start_display"]
 
 EXPOSE 3002
 
-# Build commanbd from app root dir!: "docker build -t andyschunke/bridge-display -f docker/frontend/display/Dockerfile ."
+# Build commanbd from app root dir!: "docker build -t andyschunke/bridge-display -f frontend/display/Dockerfile ."

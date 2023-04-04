@@ -1,15 +1,26 @@
-import { BridgeProps, Card, Player } from "@interface";
-import React from "react";
+import React, { useState, Dispatch } from "react";
+import { BidSelect, BridgeProps, Card, Player } from "@interface";
 import bidStyle from "../style/bidPhase.module.css";
-import BidButtons from "./BidButtons";
-import BidSelection from "./BidSelection";
+import BidButtons2 from "./BidButtons2";
 import { suitOrder } from "@shared/lib/deck";
+import ErrorMessage from "./ErrorMessage";
+import BidCarousel from "./BidCarousel";
+import EdgeLighter from "./EdgeLighter";
 
 interface GamePhaseProps extends BridgeProps {
   player: Player | null;
 }
+interface PrintedValues
+  extends Dispatch<
+    React.SetStateAction<{
+      bidAmount: null | number;
+      bidSuit: null | string;
+    }>
+  > {}
 
 const GamePhase = (props: GamePhaseProps) => {
+  const [errorStatement, setErrorStatement] = useState<any>(null);
+
   const { G, moves, player, playerID, ctx } = props;
   const handlePlayCard = (card: Card) => {
     moves.playCard(card);
@@ -31,14 +42,14 @@ const GamePhase = (props: GamePhaseProps) => {
   };
 
   return (
-    <div
-      className={bidStyle.wrapper}
-      style={{
-        background: ctx.currentPlayer === playerID ? "var(--green)" : "none",
-      }}
-    >
+    <div className={bidStyle.wrapper}>
+      {errorStatement && (
+        <ErrorMessage
+          message={errorStatement}
+          setErrorStatement={setErrorStatement}
+        />
+      )}
       <h1 className={bidStyle.temp_text}>{player?.name}</h1>
-      <p>{G.contract?.level}</p>
 
       {player && (
         <ul className={bidStyle.gamephase_cards}>
@@ -50,14 +61,11 @@ const GamePhase = (props: GamePhaseProps) => {
         </ul>
       )}
       {ctx.phase === "bid" && (
-        <div>
-          <BidSelection {...props} />
-
-          <ul className={bidStyle.buttons_wrapper}>
-            <BidButtons moves={moves} />
-          </ul>
-        </div>
+        <>
+          <BidCarousel {...props} setErrorStatement={setErrorStatement} />
+        </>
       )}
+      {ctx.currentPlayer === playerID && <EdgeLighter />}
     </div>
   );
 };

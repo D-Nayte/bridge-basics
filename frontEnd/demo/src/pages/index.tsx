@@ -1,4 +1,3 @@
-import Lobby from "@displayComponents/Lobby";
 import Head from "next/head";
 import Demo from "./Demo";
 
