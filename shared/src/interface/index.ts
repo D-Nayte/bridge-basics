@@ -7,7 +7,6 @@ export interface URLS {
   serverURL: URL;
   clientURL: URL;
   displayURL: URL;
-  serverAdress: string | undefined;
   clientPort: string | undefined;
   serverPort: string | undefined;
   displayPort: string | undefined;

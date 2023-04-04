@@ -9,7 +9,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     if (typeof window !== undefined) {
-      const urls: URLS = getURLs();
+      const protocol = window.location.protocol;
+      const urls: URLS = getURLs(protocol);
       seturls(urls);
     }
   }, []);

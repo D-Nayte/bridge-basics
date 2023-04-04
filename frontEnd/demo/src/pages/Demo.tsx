@@ -1,36 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { LobbyClient } from "boardgame.io/client";
-import { Match, MatchData, URLS } from "@interface";
-import createBridgeClient from "@displayComponents/BridgeClient";
+import { Match, URLS } from "@interface";
 import { useRouter } from "next/router";
 
 const Demo = ({ urls }: { urls: URLS }) => {
-  const clientPort: String | undefined = process.env.NEXT_PUBLIC_CLIENT_PORT;
-  const { serverURL, displayURL } = urls;
+  const { serverURL, displayURL, clientURL } = urls;
   const lobbyClient = new LobbyClient({ server: serverURL.origin });
-  const [matchData, setmatchData] = useState<MatchData | null>(null);
-  const [BridgeClient, setBridgeClient] = useState<any>();
   const [matchID, setmatchID] = useState<string>("");
   const [matchURL, setmatchURL] = useState<string>("");
   const [displayJoinURL, setdisplayJoinURL] = useState<string>("");
-  const [joiningDisplay, setjoiningDisplay] = useState<string>("");
   const router = useRouter();
 
   // create a game on server and return the matchID
-  const createGame = async (protocoll: string) => {
+  const createGame = async () => {
     const url = serverURL;
     url.pathname = "serverIp";
 
     try {
       const { matchID } = await lobbyClient.createMatch("bridge", {
         numPlayers: 5,
-
-        setupData: { test: "kasldnlk", name: "display" },
+        setupData: { name: "display" },
       });
-      const response = await fetch(url.href, { method: "POST" });
-      const { serverIp } = await response.json();
+
       setmatchID(matchID);
-      createClientURL({ serverIp, matchID, protocoll });
+      createClientURL({ matchID });
     } catch (error) {
       console.error("Failed to get match id and server ip", error);
     }
@@ -50,7 +43,7 @@ const Demo = ({ urls }: { urls: URLS }) => {
         matchID,
         playerData
       );
-      setmatchData({ ...match, matchID });
+      // setmatchData({ ...match, matchID });
     } catch (error: any) {
       if (error.details.includes("maximum number of players"))
         return alert("Maximun players reached");
@@ -59,23 +52,11 @@ const Demo = ({ urls }: { urls: URLS }) => {
   };
 
   //create Client URL for qr code
-  const createClientURL = ({
-    serverIp,
-    matchID,
-    protocoll,
-  }: {
-    serverIp: string;
-    matchID: string;
-    protocoll: string;
-  }) => {
-    const lobbyURL = new URL(`${protocoll}${serverIp}:${clientPort}`);
+  const createClientURL = ({ matchID }: { matchID: string }) => {
+    const lobbyURL = clientURL;
     lobbyURL.pathname = "lobby";
     lobbyURL.searchParams.set("matchID", matchID);
     setmatchURL(lobbyURL.href);
-    const BrideClient = createBridgeClient({
-      socketAdress: `${process.env.NEXT_PUBLIC_Server_ADDRESS}:${process.env.NEXT_PUBLIC_SERVER_PORT}`,
-    });
-    setBridgeClient((prev: any) => (prev = BrideClient));
   };
 
   useEffect(() => {}, []);
@@ -89,7 +70,7 @@ const Demo = ({ urls }: { urls: URLS }) => {
         const protocoll = window.location.protocol;
 
         if (!matchID) {
-          createGame(protocoll);
+          createGame();
           return;
         }
       }
@@ -97,7 +78,7 @@ const Demo = ({ urls }: { urls: URLS }) => {
   }, [router.isReady]);
 
   useEffect(() => {
-    console.log("TEST!!!!!! :>> ", matchData);
+    console.log("TEST!!!!!! :>> ", matchID);
     if (matchID) {
       joinMatch(matchID);
       displayURL.searchParams.set("matchID", matchID);
@@ -144,8 +125,10 @@ const Demo = ({ urls }: { urls: URLS }) => {
       <div>
         {displayJoinURL && (
           <div style={container}>
+            {/*@ts-ignore*/}
             <iframe src={displayJoinURL} style={displayStyle}></iframe>
 
+            {/*@ts-ignore*/}
             <div style={clients}>
               <iframe src={matchURL} style={clientStyle}></iframe>
               <iframe src={matchURL} style={clientStyle}></iframe>

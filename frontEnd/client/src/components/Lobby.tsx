@@ -13,17 +13,16 @@ const Lobby = ({ urls }: { urls: URLS }) => {
   const [matchData, setmatchData] = useState<MatchData | null>(null);
   const [playerName, setplayerName] = useState<string>(starterName());
   const [currPlayerData, setcurrPlayerData] = useState<RawPlayer | null>(null);
-  const [demo, setdemo] = useState(false);
   const randomAvatarURL = `https://api.dicebear.com/5.x/micah/svg?seed=${encodeURI(
     playerName
   )}`;
-  console.log("randomAvatarURL", randomAvatarURL);
   const lobbyClient = new LobbyClient({ server: serverURL.origin });
   const gameURL = `/game?id=${matchData?.matchID}&&playerID=${currPlayerData?.id}&&playerCredentials=${currPlayerData?.playerCredentials}`;
 
   // join a match and store relevant data in state
   const joinMatch = async (matchID: string) => {
     const lobbyClient = new LobbyClient({ server: serverURL.origin });
+    console.log("serverURL :>> ", serverURL);
     const playerData: { playerName: string; imageURL: string } = {
       playerName,
       imageURL: randomAvatarURL,

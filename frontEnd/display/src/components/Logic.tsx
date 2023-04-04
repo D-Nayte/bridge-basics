@@ -8,7 +8,6 @@ import {
   BsFillSuitClubFill,
 } from "react-icons/bs";
 import { AiOutlineStop } from "react-icons/ai";
-import { IconManifest } from "react-icons/lib/esm/iconsManifest";
 
 function getSuitSymbol(suit: Suit = "NT") {
   const symbolList = {
@@ -21,7 +20,6 @@ function getSuitSymbol(suit: Suit = "NT") {
 
   return symbolList[suit];
 }
-console.log("getSuitSymbol ", getSuitSymbol("H"));
 
 const Logic = (props: BridgeProps) => {
   const { G, ctx, plugins, matchData } = props;
@@ -42,8 +40,7 @@ const Logic = (props: BridgeProps) => {
                 G.contract?.suit === "H" || G.contract?.suit === "D"
                   ? "var(--red)"
                   : "black",
-            }}
-          >
+            }}>
             {G.contract?.level} {getSuitSymbol(G.contract.suit)}
           </h2>
         </>

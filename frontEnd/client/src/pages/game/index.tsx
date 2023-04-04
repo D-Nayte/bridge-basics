@@ -2,8 +2,10 @@ import { getURLs } from "@shared/utils/urls";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import createBridgeClient from "../../components/BridgeClient";
+import { URLS } from "@interface";
 
-const Index = () => {
+const Index = ({ urls }: { urls: URLS }) => {
+  const { serverURL } = urls;
   const router = useRouter();
   const [matchData, setmatchData] = useState<{
     matchID: string;
@@ -11,7 +13,7 @@ const Index = () => {
     playerID: string;
   } | null>(null);
   const BrideClient = createBridgeClient({
-    socketAdress: `${process.env.NEXT_PUBLIC_Server_ADDRESS}:${process.env.NEXT_PUBLIC_SERVER_PORT}`,
+    socketAdress: `${serverURL}`,
   });
 
   useEffect(() => {

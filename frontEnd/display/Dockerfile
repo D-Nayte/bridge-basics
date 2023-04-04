@@ -14,9 +14,11 @@ COPY ../../shared ./shared
 COPY ../../.env ./
 COPY ../../tsconfig.json ./
 
+# building the next app
+RUN npm run build_display
 
 # Start the application
-CMD ["npm","run","dev_display"]
+CMD ["npm","run","start_display"]
 
 EXPOSE 3002
 

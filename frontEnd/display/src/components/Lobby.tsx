@@ -6,32 +6,28 @@ import { useRouter } from "next/router";
 import lobby from "../styles/lobby.module.css";
 
 const Lobby = ({ urls }: { urls: URLS }) => {
-  const clientPort: String | undefined = process.env.NEXT_PUBLIC_CLIENT_PORT;
-  const { serverURL, serverAdress } = urls;
+  const { serverURL, clientURL } = urls;
   const lobbyClient = new LobbyClient({ server: serverURL.origin });
   const [matchData, setmatchData] = useState<MatchData | null>(null);
   const [matchURL, setmatchURL] = useState<string>("");
   const router = useRouter();
   const BridgeClient = createBridgeClient({
-    socketAdress: `${process.env.NEXT_PUBLIC_Server_ADDRESS}:${process.env.NEXT_PUBLIC_SERVER_PORT}`,
+    socketAdress: `${serverURL}`,
   });
-
+  console.log("serverURL :>> ", serverURL);
   // create a game on server and return the matchID
   const createGame = async () => {
-    const url = serverURL;
-
     try {
       const { matchID } = await lobbyClient.createMatch("bridge", {
         numPlayers: 5,
-
-        setupData: { test: "kasldnlk", name: "display" },
+        setupData: { name: "display" },
       });
 
       createClientURL({ matchID });
       joinMatch(matchID);
       setmatchData({ matchID });
     } catch (error) {
-      console.error("Failed to get match id and server ip", error);
+      console.error("Failed to get match id ", error);
     }
   };
 
@@ -59,7 +55,7 @@ const Lobby = ({ urls }: { urls: URLS }) => {
 
   //create Client URL for qr code
   const createClientURL = ({ matchID }: { matchID: string }) => {
-    const lobbyURL = new URL(`${serverAdress}:${clientPort}`);
+    const lobbyURL = clientURL;
     lobbyURL.pathname = "lobby";
     lobbyURL.searchParams.set("matchID", matchID);
     setmatchURL(lobbyURL.href);
