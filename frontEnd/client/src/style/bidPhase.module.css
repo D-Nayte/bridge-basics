@@ -22,10 +22,10 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.3rem;
+  gap: 0.4rem;
 }
 .gamephase_cards li img {
-  width: 4.4rem;
+  width: 4.2rem;
 }
 .bidselection_wrapper {
   width: 100vw;

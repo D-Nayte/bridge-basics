@@ -8,6 +8,7 @@ import {
   BsFillSuitClubFill,
 } from "react-icons/bs";
 import { AiOutlineStop } from "react-icons/ai";
+import Contract from "./Contract";
 
 function getSuitSymbol(suit: Suit = "NT") {
   const symbolList = {
@@ -32,6 +33,7 @@ const Logic = (props: BridgeProps) => {
       </div>
       {G.contract?.suit && (
         <>
+          <Contract {...props} />
           <h2>Current Contract:</h2>
           <h2
             className={style.logic_contract_suit}
