@@ -4,5 +4,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "baseUrl": "../"
-  }
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }

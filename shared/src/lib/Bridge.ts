@@ -5,21 +5,24 @@ import {
   INVALID_MOVE,
   TurnOrder,
 } from "../../../node_modules/boardgame.io/core";
-import createDeck, { suitOrder } from "./deck";
+import createDeck, { deckPoints, suitOrder } from "./deck";
 import {
-  Bid,
   BridgeParams,
   BridgeState,
   Card,
-  Contract,
-  DeckPoints,
   Player,
   PlayerCard,
   Suit,
   Trick,
   Vulnerability,
 } from "../interface/index";
-import type { Game, Move, Ctx, FnContext } from "boardgame.io";
+import type { Game, Move } from "boardgame.io";
+import {
+  getBonus,
+  getIsVulnerable,
+  getOpponentPoints,
+} from "../utils/pointsCalculator";
+import { getTeam, getTeammateIndexString } from "../helpers/calcHelpers";
 
 const dealToPlayer = ({ G }: { G: BridgeState }) => {
   const deck: Card[] = G.deck;
@@ -32,53 +35,6 @@ const dealToPlayer = ({ G }: { G: BridgeState }) => {
   });
   G.dealt = true;
 };
-
-const players = [
-  {
-    name: "Andy",
-    hand: [],
-    passed: false,
-    bid: {
-      suit: null,
-      level: null,
-      double: null,
-      redouble: null,
-    },
-  },
-  {
-    name: "Rene",
-    hand: [],
-    passed: false,
-    bid: {
-      suit: null,
-      level: null,
-      double: null,
-      redouble: null,
-    },
-  },
-  {
-    name: "Holger",
-    hand: [],
-    passed: false,
-    bid: {
-      suit: null,
-      level: null,
-      double: null,
-      redouble: null,
-    },
-  },
-  {
-    name: "Danni",
-    hand: [],
-    passed: false,
-    bid: {
-      suit: null,
-      level: null,
-      double: null,
-      redouble: null,
-    },
-  },
-];
 
 const bid: Move<BridgeState> = (
   { G, ctx },
@@ -321,6 +277,7 @@ export const Bridge: Game<BridgeState> = {
               ? (G.contract = {
                   ...wonPlayer.bid,
                   playerID: wonPlayer.id.toString(),
+                  getBonuses: [],
                 })
               : console.error("Error finding the won player in play/onEnd");
           }
@@ -392,18 +349,12 @@ export const Bridge: Game<BridgeState> = {
       onBegin: ({ G, ctx }) => {
         if (!G.contract)
           return console.error("Failed calculate Scores, no contract!");
-        const { level, double, redouble, suit, playerID } = G.contract;
+        const { level, double, redouble, suit, playerID, getBonuses } =
+          G.contract;
         if (!level || !suit || !playerID)
           return console.error(
             "Failed calculate Scores, values on contract missing!"
           );
-        const deckPoints: DeckPoints = {
-          C: 20, //treff
-          D: 20, //Karo/Diamond
-          H: 30, //Heart/Coeur
-          S: 30, //Pid/Spead
-          NT: 40,
-        };
 
         const vulnerability: Vulnerability = {
           none: [],
@@ -412,57 +363,22 @@ export const Bridge: Game<BridgeState> = {
           all: [0, 1, 2, 3],
         };
 
-        const getBonus = (
-          { level, suit, playerID }: Contract,
-          G: BridgeState
-        ): number => {
-          if (!level || !suit) {
-            console.error("error getting Bonus!");
-            return 50;
-          }
-
-          // checks wich team is in danger, based on vulnerabilitySetup index and order
-          const { vulnerabilitySetup } = G;
-          const { index, order } = vulnerabilitySetup;
-          const isVulnerable: boolean = order[index].some(
-            (number) => number === parseInt(playerID)
-          );
-
-          let bonusKey: string | null = null;
-          let scores = 0;
-
-          const bidTricks: number = parseInt(level);
-          if (bidTricks === 7) bonusKey = "bigSlam";
-          if (bidTricks === 6) bonusKey = "smallSlam";
-
-          switch (bonusKey) {
-            case "bigSlam":
-              scores = isVulnerable ? 1500 : 1000;
-              break;
-            case "smallSlam":
-              scores = isVulnerable ? 750 : 500;
-              break;
-          }
-
-          scores +=
-            // add points for fullgame or partGame, based on the initial bid. Calculated from bid level times color value
-            bidTricks * deckPoints[suit] >= 100
-              ? isVulnerable
-                ? 500
-                : 300
-              : 50;
-
-          return scores;
-        };
-
         // level is amount of promised tricks, suit is color
-        const teamMateID = (parseInt(playerID) + 2).toString();
-
-        let scores: any;
+        let scores: number;
         let tricksCount: number = 0;
+        let missingTricks = 0;
+        const { tricks } = G;
+        const bonus: number = getBonus(
+          { level, suit, playerID, getBonuses },
+          G
+        );
+        const teamMateID = getTeammateIndexString(playerID);
 
-        G.tricks.forEach((trick: Trick) => {
-          if (trick.playerID === playerID) tricksCount++;
+        //if player or teammate ownes a trick, increase tricks count
+        tricks.forEach((trick: Trick) => {
+          if (trick.playerID === playerID || trick.playerID === teamMateID)
+            tricksCount++;
+          else missingTricks++;
         });
 
         let trickPoints: number | false =
@@ -470,9 +386,24 @@ export const Bridge: Game<BridgeState> = {
             ? (tricksCount - 6) * deckPoints[suit]
             : false;
 
-        const bonus: number = getBonus({ level, suit, playerID }, G);
         if (!trickPoints) {
-          //TODO! calc if loosing the game after tricksCount is false
+          // if palyer lsot the round
+          const doupleType = redouble ? "redouble" : double ? "double" : null;
+          const isVulnerable = getIsVulnerable(G);
+          const opponentPoints = getOpponentPoints(
+            missingTricks,
+            parseInt(level),
+            doupleType,
+            isVulnerable
+          );
+          const opponentTeam: string[] = getTeam(playerID);
+          //add points to each opponent
+          G.players = G.players.map((player) => {
+            // add half of the points to each opponent
+            opponentTeam.includes(player.id.toString()) &&
+              (player.scores = player.scores += opponentPoints / 2);
+            return player;
+          });
           return;
         }
 
@@ -485,22 +416,12 @@ export const Bridge: Game<BridgeState> = {
         }
 
         scores = trickPoints + bonus;
-        const player = G.players[parseInt(playerID)];
-        player.scores += scores;
+        const player = G.players.find(
+          (player) => player.id === parseInt(playerID)
+        );
+        player && (player.scores += scores);
       },
       moves: { startNewRound },
     },
   },
 };
-
-// 6 NT
-
-// 13
-
-// 1 x 40 + 5 x 30 = 190 (> 100 => Vollspiel)
-
-// 1 x 40 + 6 x 30 = 220
-
-// 300 + 500 (Vollspielprämie + Kleinschlemmprämie)
-
-// 1020

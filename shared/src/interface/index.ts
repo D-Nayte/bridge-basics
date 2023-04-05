@@ -74,6 +74,7 @@ export interface PlayerCard {
 
 export interface Contract extends Bid {
   playerID: string;
+  getBonuses: string[];
 }
 
 //G
