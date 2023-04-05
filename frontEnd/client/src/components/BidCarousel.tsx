@@ -64,22 +64,22 @@ const BidCarousel = (props: CarouselProps) => {
   const validateBid = () => {
     const highestBid = G?.highestBid;
     const activePlayer = ctx?.currentPlayer;
-    const isCurrentlyActivePlayer = activePlayer === playerID;
 
-    if (isCurrentlyActivePlayer) {
-      if (highestBid?.suit && highestBid?.level) {
-        const currentPlayerBid = bidNumber.value;
-        const highestLevel = parseInt(highestBid.level);
+    if (highestBid?.suit && highestBid?.level) {
+      const currentPlayerBid = bidNumber.value;
+      const highestLevel = parseInt(highestBid.level);
 
-        //if color level is less then the actuall one
-        if (currentPlayerBid <= highestLevel) {
-          const highestSuit = suitOrder.indexOf(highestBid.suit);
-          const currSuit = suitOrder.indexOf(bidSuit.id);
-          currSuit <= highestSuit ? setinvalidBid(true) : setinvalidBid(false);
-          return;
-        }
-        setinvalidBid(false);
+      //if color level is less then the actuall one
+      if (currentPlayerBid <= highestLevel) {
+        const highestSuit = suitOrder.indexOf(highestBid.suit);
+        const currSuit = suitOrder.indexOf(bidSuit.id);
+        const sameSuit = currentPlayerBid === highestLevel;
+        currSuit > highestSuit && sameSuit
+          ? setinvalidBid(false)
+          : setinvalidBid(true);
+        return;
       }
+      setinvalidBid(false);
     }
   };
 
@@ -102,8 +102,7 @@ const BidCarousel = (props: CarouselProps) => {
                     : bidSuit.color === "black"
                     ? "var(--text-color-dark)"
                     : "var(--white)",
-              }}
-            >
+              }}>
               {bidSuit.value}
             </p>
           </div>
